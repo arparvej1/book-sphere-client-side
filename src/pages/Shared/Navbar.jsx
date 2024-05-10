@@ -1,14 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-// import { AuthContext } from '../../provider/AuthProvider';
+import { AuthContext } from '../../provider/AuthProvider';
 import { RxAvatar } from "react-icons/rx";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const Navbar = () => {
-  // const { user, logOut, avatarIcon } = useContext(AuthContext);
-  const user = false;
-  const avatarIcon = true;
+  const { user, logOut, avatarIcon } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
 
   useEffect(() => {
