@@ -9,6 +9,7 @@ import Login from "../pages/User/Login/Login";
 import Register from "../pages/User/Register/Register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
+import BookDetails from "../pages/Books/BookDetails/BookDetails";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
       {
         path: '/all-books',
         element: <PrivateRoutes><AllBooks></AllBooks></PrivateRoutes>
+      },
+      {
+        path: '/book/:bookId',
+        element: <PrivateRoutes><BookDetails></BookDetails></PrivateRoutes>,
+        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
       },
       {
         path: '/add-book',
