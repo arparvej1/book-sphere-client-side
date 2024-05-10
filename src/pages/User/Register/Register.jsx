@@ -32,23 +32,25 @@ const Register = () => {
     const newRegister = { name, photo_url, email, password };
 
     // password validation checking
-    if (password.length >= 6) {
-      if (/[A-Z]/.test(password) && /[a-z]/.test(password)) {
-        setPasswordMsg('');
-      } else if (/[A-Z]/.test(password)) {
-        setPasswordMsg('Password needs 6+ characters with upper & lowercases.');
-        toast.error('Must have a Lowercase letter in the password');
-        return;
-      } else {
-        setPasswordMsg('Password needs 6+ characters with upper & lowercases.');
-        toast.error('Must have an Uppercase letter in the password');
-        return;
-      }
-    } else {
-      toast.error('Length must be at least 6 character');
-      setPasswordMsg('Password needs 6+ characters with upper & lowercases.');
+    if (password.length < 6) {
+      toast.error('Password must be at least 6 characters long');
+      setPasswordMsg('Password must be 6+ characters with uppercase & a special character.');
       return;
     }
+
+    if (!/[A-Z]/.test(password)) {
+      toast.error('Password must contain at least one uppercase letter');
+      setPasswordMsg('Password must be 6+ characters with uppercase & a special character.');
+      return;
+    }
+
+    if (!/[!@#$%^&*()\[\]{};:,<.>=\\|/?`~+\-=_"'!]/.test(password)) {
+      toast.error('Password must contain at least one special character');
+      setPasswordMsg('Password must be 6+ characters with uppercase & a special character.');
+      return;
+    }
+
+    setPasswordMsg('');
 
     setTextDot('...');
 
@@ -106,7 +108,7 @@ const Register = () => {
   return (
     <>
       <Helmet>
-        <title> Register | PotteryLane </title>
+        <title> Register | BookSphere </title>
       </Helmet>
 
       <div className='flex flex-col md:flex-row max-w-7xl mx-auto mt-8'>
@@ -145,7 +147,10 @@ const Register = () => {
                   <input type={passwordShow ? 'text' : 'password'} name='password' placeholder="Password" className="w-full" required /><span onClick={handlePasswordShow}>{passwordShow ? <VscEye /> : <VscEyeClosed />}</span>
                 </div>
               </label>
-              <p className='pt-1 text-red-500'>{passwordMsg}</p>
+              {
+                !passwordMsg == '' ?
+                  <p className='mt-2 bg-blue-300 bg-opacity-75 p-3 rounded-2xl text-red-500'>{passwordMsg}</p> : undefined
+              }
             </div>
             <div>
               <input type="submit" value={`Register${textDot}`} className="btn btn-primary w-full font-semibold text-xl" />
