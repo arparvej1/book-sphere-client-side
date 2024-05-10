@@ -10,6 +10,8 @@ import Register from "../pages/User/Register/Register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 import BookDetails from "../pages/Books/BookDetails/BookDetails";
+import Profile from "../pages/User/Profile/Profile";
+import UpdateProfile from "../pages/User/Profile/UpdateProfile";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register></Register>
+      },
+      {
+        path: '/profile',
+        element: <PrivateRoutes><Profile></Profile></PrivateRoutes>
+      },
+      {
+        path: '/update-profile',
+        element: <PrivateRoutes><UpdateProfile></UpdateProfile></PrivateRoutes>
       },
       {
         path: '/all-books',

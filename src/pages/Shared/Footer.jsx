@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { FaGithub, FaYoutube, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
-// import { AuthContext } from "../../provider/AuthProvider";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Footer = () => {
-  // const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <footer className="mt-10 p-10 bg-base-200 text-base-content rounded">
       <div className="max-w-screen-xl mx-5 xl:px-5 2xl:px-0 xl:mx-auto">
@@ -21,14 +21,13 @@ const Footer = () => {
           </div>
           <div className="flex flex-col gap-2 md:col-span-2">
             <p className="font-semibold">Useful Links</p>
-            {/* <nav className="flex flex-col gap-2">
+            <nav className="flex flex-col gap-2">
               <Link to='/' className="link-hover">Home</Link>
-              <Link to='/all-art-craft' className="link-hover">All Art Craft</Link>
-              <Link to='/my-art-craft' className="link-hover">My Art Craft</Link>
+              <Link to='/all-books' className="link-hover">All Books</Link>
               {!user ?
                 <Link to='/register' className="link-hover">Register</Link>
                 : <Link to='/profile' className="link-hover">Profile</Link>}
-            </nav> */}
+            </nav>
           </div>
           <div className="flex flex-col text-center md:text-start gap-2 md:col-span-1">
             <p className="font-semibold">Follow Us</p>
