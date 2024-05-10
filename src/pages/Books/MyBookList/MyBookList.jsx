@@ -53,11 +53,13 @@ const MyBookList = () => {
         </div>
       </div>
       <div className="max-w-5xl mx-auto">
-        {
-          myItems.map(item => <MyBookListCard key={item._id} item={item}
-            myItems={myItems} setMyItems={setMyItems}
-          ></MyBookListCard>)
-        }
+        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {
+            myItems.map(book => <MyBookListCard key={book._id} book={book}
+              myItems={myItems} setMyItems={setMyItems}
+            ></MyBookListCard>)
+          }
+        </div>
       </div>
       <ToastContainer />
     </div>

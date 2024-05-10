@@ -13,6 +13,7 @@ import BookDetails from "../pages/Books/BookDetails/BookDetails";
 import Profile from "../pages/User/Profile/Profile";
 import UpdateProfile from "../pages/User/Profile/UpdateProfile";
 import MyBookList from "../pages/Books/MyBookList/MyBookList";
+import UpdateBook from "../pages/Books/EditBook/UpdateBook";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,11 @@ const router = createBrowserRouter([
       {
         path: '/add-book',
         element: <PrivateRoutes><AddBook></AddBook></PrivateRoutes>
+      },
+      {
+        path: '/update-book/:bookId',
+        element: <PrivateRoutes><UpdateBook></UpdateBook></PrivateRoutes>,
+        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
       },
       {
         path: '/my-book-list',
