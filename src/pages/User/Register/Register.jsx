@@ -13,7 +13,7 @@ import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 
 
 const Register = () => {
-  const { user, createUser, updateUserInfo, setAvatarIcon, setLoading, alreadyRegister, setAlreadyRegister, logOut, textDot, setTextDot, apiURL } = useContext(AuthContext);
+  const { user, createUser, updateUserInfo, setAvatarIcon, setLoading, alreadyRegister, setAlreadyRegister, logOut, textDot, setTextDot } = useContext(AuthContext);
   const navigate = useNavigate();
   const [passwordMsg, setPasswordMsg] = useState('');
   const location = useLocation();
@@ -60,7 +60,7 @@ const Register = () => {
         setLoading(true);
         setAlreadyRegister(true);
         // --------- send server start -----
-        fetch(`${apiURL}/users`, {
+        fetch(`${import.meta.env.VITE_VERCEL_API}/users`, {
           method: 'POST',
           headers: {
             'content-type': 'application/json'
@@ -153,7 +153,7 @@ const Register = () => {
               }
             </div>
             <div>
-              <input type="submit" value={`Register${textDot}`} className="btn btn-primary w-full font-semibold text-xl" />
+              <input type="submit" value={`Register${textDot}`} className="btn btn-accent w-full font-semibold text-xl" />
             </div>
           </form>
           <div className="mt-4 text-sm text-gray-300 text-center">

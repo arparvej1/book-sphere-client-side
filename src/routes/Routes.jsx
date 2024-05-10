@@ -7,12 +7,13 @@ import AllBooks from "../pages/Books/AllBooks/AllBooks";
 import AddBook from "../pages/Books/EditBook/AddBook";
 import Login from "../pages/User/Login/Login";
 import Register from "../pages/User/Register/Register";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
-    // errorElement: <ErrorPage></ErrorPage>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: '/',
