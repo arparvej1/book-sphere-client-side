@@ -119,11 +119,6 @@ const AddBook = () => {
                     categoryList.map(category => <option key={category._id} value={category.categoryName}>{category.categoryName}</option>)
                   }
                 </select>
-                {/* 
-                <select name="category" className="select select-bordered w-full">
-                  <option value="CCC">CCC</option>
-                  
-                </select> */}
                 <span onClick={handleAddBtn} className="btn">Add</span>
               </div>
             </label>
