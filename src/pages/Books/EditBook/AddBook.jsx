@@ -5,15 +5,19 @@ import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 const AddBook = () => {
-  const { user, apiURL, loginCheck } = useContext(AuthContext);
+  const { user, loginCheck } = useContext(AuthContext);
   const [categoryList, setCategoryList] = useState([]);
 
-  useEffect(() => {
-    fetch(`${apiURL}/category`)
+  const loadCategory = () => {
+    fetch(`${import.meta.env.VITE_VERCEL_API}/category`)
       .then(res => res.json())
       .then(data => {
         setCategoryList(data)
       })
+  }
+
+  useEffect(() => {
+    loadCategory()
   }, [])
 
   const handleAddItem = (e) => {
@@ -66,7 +70,7 @@ const AddBook = () => {
     const category = { categoryName, categoryPhoto };
     console.log(category);
     // --------- send server start -----
-    fetch(`${apiURL}/category`, {
+    fetch(`${import.meta.env.VITE_VERCEL_API}/category`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -80,11 +84,7 @@ const AddBook = () => {
           toast.success('Successfully Add Category!')
         }
         form.reset();
-        fetch(`${apiURL}/category`)
-          .then(res => res.json())
-          .then(data => {
-            setCategoryList(data)
-          })
+        loadCategory();
       })
     // --------- send server end -----
   }
@@ -114,16 +114,16 @@ const AddBook = () => {
             <label className="flex flex-col gap-1 w-full">
               <span>Category Name</span>
               <div className="flex gap-1">
-                {/* <select name="category" className="select select-bordered w-full">
+                <select name="category" className="select select-bordered w-full">
                   {
                     categoryList.map(category => <option key={category._id} value={category.categoryName}>{category.categoryName}</option>)
                   }
-                </select> */}
-
+                </select>
+                {/* 
                 <select name="category" className="select select-bordered w-full">
                   <option value="CCC">CCC</option>
                   
-                </select>
+                </select> */}
                 <span onClick={handleAddBtn} className="btn">Add</span>
               </div>
             </label>
