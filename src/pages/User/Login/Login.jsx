@@ -93,20 +93,20 @@ const Login = () => {
         <div className='hidden md:block'>
         </div>
         {/* ------ */}
-        <div className='md:w-2/3 lg:w-2/5 rounded-2xl bg-base-200 p-5 md:p-10 md:mx-auto'>
-          <h3 className="text-3xl font-semibold mb-6 text-black text-center">
+        <div className='md:w-2/3 lg:w-2/5 rounded-2xl bg-base-200 p-5 md:p-10 md:mx-auto bg-[url("https://wallpapercave.com/wp/wp2939993.jpg")] bg-cover'>
+          <h3 className="text-3xl font-semibold mb-6 text-center text-white">
             Login Now!
           </h3>
           <form onSubmit={handleLogin} className='flex flex-col gap-3 '>
             <div>
-              <span>Email:</span>
+              <span className='text-white'>Email:</span>
               <label className="flex items-center input input-bordered gap-3" htmlFor="email">
                 <MdMailOutline />
                 <input type="email" {...register("focusEmail")} name='email' placeholder="Email" className="w-full" required />
               </label>
             </div>
             <div>
-              <span>Password:</span>
+              <span  className='text-white'>Password:</span>
               <label className="flex items-center input input-bordered gap-3" htmlFor="email">
                 <GoLock />
                 <div className="flex justify-between items-center w-full bg-transparent">
@@ -116,20 +116,20 @@ const Login = () => {
               <p className='pt-1 text-red-500'>{loginFailedMsg}</p>
             </div>
             <div>
-              <input type="submit" value={`Login${textDot}`} className="btn btn-primary w-full  font-semibold text-xl" />
+              <input type="submit" value={`Login${textDot}`} className="btn btn-accent w-full  font-semibold text-xl" />
             </div>
           </form>
-          <div className="mt-4 text-sm text-gray-600 text-center">
+          <div className="mt-4 text-sm text-gray-300 text-center">
             <p>
               New user?{" "}
-              <Link state={location?.state} to='/register' className="text-black hover:underline">Register here</Link>
+              <Link state={location?.state} to='/register' className="font-semibold hover:underline">Register here</Link>
             </p>
           </div>
-          <div className="text-sm text-gray-600 text-center">
+          <div className="text-sm text-gray-300 text-center">
             <div className="divider">OR</div>
           </div>
           <div>
-            <h3 className='text-center'>Join with social accounts.</h3>
+            <h3 className='text-center text-gray-200'>Join with social accounts.</h3>
             <div className="mt-4 flex flex-wrap gap-3 items-center justify-center">
               <div>
                 <button

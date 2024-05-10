@@ -24,11 +24,11 @@ const Navbar = () => {
     }
   }
 
-  // const handleLogOut = () => {
-  //   logOut()
-  //     .then(console.log('Successfully LogOut.'))
-  //     .catch(error => console.log(error))
-  // }
+  const handleLogOut = () => {
+    logOut()
+      .then(console.log('Successfully LogOut.'))
+      .catch(error => console.log(error))
+  }
   const navLinks = <>
     <li><NavLink to='/'>Home</NavLink></li>
     <li><NavLink to='/all-books'>All Books</NavLink></li>
@@ -92,9 +92,9 @@ const Navbar = () => {
                   {user.email}
                 </li>
                 {pNavLinks}
-                {/* <li><span onClick={handleLogOut}>LogOut
+                <li><span onClick={handleLogOut}>LogOut
                   <span className="badge"><FaSignOutAlt /></span>
-                </span></li> */}
+                </span></li>
               </ul>
             </div>
             :
@@ -106,11 +106,11 @@ const Navbar = () => {
               </div>
             </Link>
         }
-        {/* <div className='hidden md:block'>
+        <div className='hidden md:block'>
           {
             user ? <span onClick={handleLogOut} className='ml-2 btn md:text-lg'>LogOut <FaSignOutAlt /></span> : <Link className='btn md:text-lg' to='/login'>Login</Link>
           }
-        </div> */}
+        </div>
         {/* --------- theme start -------- */}
         <label className="ml-2 cursor-pointer grid place-items-center">
           <input
