@@ -1,52 +1,8 @@
 import PropTypes from 'prop-types';
-import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../../provider/AuthProvider';
 
-const BookCard = ({ book }) => {
-  const { user, librarians } = useContext(AuthContext);
+const BookCard = ({ book, activeLibrarian, handleDelete }) => {
   const { _id, name, image, author, rating, quantity, category } = book;
-  const [activeLibrarian, setActiveLibrarian] = useState(false);
-
-  useEffect(() => {
-    const filtered = librarians.filter(man => man?.email?.includes(user.email));
-    if (filtered.length > 0) {
-      setActiveLibrarian(true)
-    }
-  }, []);
-
-  // const handleDelete = _id => {
-  //   console.log(_id);
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: "You won't be able to revert this!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, delete it!'
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-
-  //       fetch(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`, {
-  //         method: 'DELETE'
-  //       })
-  //         .then(res => res.json())
-  //         .then(data => {
-  //           console.log(data);
-  //           if (data.deletedCount > 0) {
-  //             Swal.fire(
-  //               'Deleted!',
-  //               'Your item has been deleted.',
-  //               'success'
-  //             )
-  //             const remaining = myItems.filter(i => i._id !== _id);
-  //             setMyItems(remaining);
-  //           }
-  //         })
-  //     }
-  //   })
-  // }
 
   return (
     <div>
@@ -65,13 +21,11 @@ const BookCard = ({ book }) => {
           {
             activeLibrarian ? <>
               <Link to={`/update-book/${_id}`} className='btn bg-accent text-accent-content'>Update</Link>
-              {/* <button onClick={() => handleDelete(_id)} className='btn bg-secondary text-secondary-content'>Delete</button> */}
+              <button onClick={() => handleDelete(_id)} className='btn bg-secondary text-secondary-content'>Delete</button>
             </>
-
-
               : undefined
           }
-          <Link to={`/book/${_id}`} className='btn bg-primary text-primary-content'>Details</Link>
+          <Link to={`/book/${_id}`} className={`btn bg-primary text-primary-content ${!activeLibrarian ? 'w-full' : undefined}`}>Details</Link>
         </div>
       </div>
     </div>
@@ -80,7 +34,10 @@ const BookCard = ({ book }) => {
 
 
 BookCard.propTypes = {
-  book: PropTypes.object
+  book: PropTypes.object,
+  handleDelete: PropTypes.func,
+  activeLibrarian: PropTypes.bool
+
 }
 
 export default BookCard;
