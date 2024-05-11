@@ -59,6 +59,7 @@ const BookCard = ({ book }) => {
           <p>Author: {author}</p>
           <p>Rating: {rating}</p>
           <p>Category: {category}</p>
+          <p>Category: {quantity}</p>
         </div>
         <div className='flex gap-5 justify-center'>
           {
