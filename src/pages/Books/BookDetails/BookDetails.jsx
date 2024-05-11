@@ -26,8 +26,11 @@ const BookDetails = () => {
   console.log(borrowList);
 
   const handleBorrow = () => {
-    if (borrowList.find(borrow => borrow.borrowBookId.includes(_id))) {
-      toast.warn('Already Borrow the book!');
+    if (borrowList.find(borrow => borrow.borrowBookId.includes(_id) && borrow.borrowEmail.includes(user.email))) {
+      toast.warn('Already borrowed the book!');
+      return;
+    } else if (borrowList.filter(borrow => borrow.borrowEmail.includes(user.email)).length >= 3) {
+      toast.warn('Maximum number of books borrowed!');
       return;
     }
     document.getElementById('borrowAdd').showModal();
@@ -35,8 +38,8 @@ const BookDetails = () => {
   }
   const handleAddBorrow = (e) => {
     e.preventDefault();
-    if (borrowList.find(borrow => borrow.borrowBookId.includes(_id))) {
-      toast.warn('Already Borrow the book!');
+    if (borrowList.find(borrow => borrow.borrowBookId.includes(_id) && borrow.borrowEmail.includes(user.email))) {
+      toast.warn('Already borrowed the book!');
       return;
     }
     const form = e.target;
