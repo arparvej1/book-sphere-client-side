@@ -12,8 +12,22 @@ const AllBooks = () => {
   const { user, librarians } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [displayLayout, setDisplayLayout] = useState('list');
   const [activeLibrarian, setActiveLibrarian] = useState(false);
+  const [displayLayout, setDisplayLayout] = useState(localStorage.getItem('displayLayout') ? localStorage.getItem('displayLayout') : 'list');
+
+  useEffect(() => {
+    localStorage.setItem('displayLayout', displayLayout);
+    const localDisplayLayout = localStorage.getItem('displayLayout');
+    setDisplayLayout(localDisplayLayout);
+  }, [displayLayout])
+
+   const handleDisplayLayoutBtn = (layout) => {
+    if (layout === 'grid') {
+      setDisplayLayout('grid')
+    } else {
+      setDisplayLayout('list')
+    }
+  }
 
   useEffect(() => {
     const filtered = librarians.filter(man => man?.email?.includes(user.email));
@@ -35,13 +49,6 @@ const AllBooks = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleDisplayLayoutBtn = (layout) => {
-    if (layout === 'grid') {
-      setDisplayLayout('grid')
-    } else {
-      setDisplayLayout('list')
-    }
-  }
 
   const handleDelete = _id => {
     console.log(_id);
