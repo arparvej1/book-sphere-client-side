@@ -22,10 +22,9 @@ const Home = () => {
       fetch(`${import.meta.env.VITE_VERCEL_API}/category`)
       .then(res => res.json())
       .then(data => {
-        setCategoryList(data)
+        setCategoryList(data);
         setLoading2(false);
       })
-
   }, [])
 
   return (

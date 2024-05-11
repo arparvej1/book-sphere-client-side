@@ -10,7 +10,6 @@ const MyBookList = () => {
   const { user, loginCheck } = useContext(AuthContext);
   const books = useLoaderData();
   const [myItems, setMyItems] = useState([]);
-  console.log(myItems);
 
   useEffect(() => {
     const filtered = books.filter(book => book?.userUid?.includes(user.uid));

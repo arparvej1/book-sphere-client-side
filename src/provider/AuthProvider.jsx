@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
   const [alreadyLogin, setAlreadyLogin] = useState(false);
   const [alreadyUpdate, setAlreadyUpdate] = useState(false);
   const [textDot, setTextDot] = useState('');
+  const [librarians, setLibrarians] = useState([]);
 
   const loginCheck = () => {
     if (alreadyLogin) {
@@ -73,6 +74,14 @@ const AuthProvider = ({ children }) => {
     return () => unSubscribe();
   }, []);
 
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_VERCEL_API}/librarians`)
+      .then(res => res.json())
+      .then(data => {
+        setLibrarians(data)
+      })
+  }, []);
+  
   const authInfo = {
     user,
     loading,
@@ -94,7 +103,8 @@ const AuthProvider = ({ children }) => {
     signInWithGithub,
     logOut,
     textDot,
-    setTextDot
+    setTextDot,
+    librarians
   }
 
   return (
