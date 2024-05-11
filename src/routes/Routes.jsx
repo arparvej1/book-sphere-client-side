@@ -14,6 +14,8 @@ import Profile from "../pages/User/Profile/Profile";
 import UpdateProfile from "../pages/User/Profile/UpdateProfile";
 import MyBookList from "../pages/Books/MyBookList/MyBookList";
 import UpdateBook from "../pages/Books/EditBook/UpdateBook";
+import BorrowedBooks from "../pages/Books/BorrowedBooks/BorrowedBooks";
+import SelectedCategory from "../pages/Books/AllCategory/SelectedCategory";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,16 @@ const router = createBrowserRouter([
       {
         path: '/my-book-list',
         element: <PrivateRoutes><MyBookList></MyBookList></PrivateRoutes>,
+        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
+      },
+      {
+        path: '/borrowed-books',
+        element: <PrivateRoutes><BorrowedBooks></BorrowedBooks></PrivateRoutes>,
+        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
+      },
+      {
+        path: '/category/:categoryName',
+        element: <PrivateRoutes><SelectedCategory></SelectedCategory></PrivateRoutes>,
         loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
       },
     ]

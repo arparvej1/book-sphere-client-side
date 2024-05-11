@@ -9,7 +9,7 @@ const BookDetails = () => {
 
   return (
     <div className="grid md:grid-cols-2 gap-12 my-10">
-      <div className="bg-[#f3f3f3] rounded-3xl p-16">
+      <div className=" bg-base-300 rounded-3xl p-16">
         <img className="w-full" src={image} alt={name} />
       </div>
       <div className="flex flex-col gap-4">

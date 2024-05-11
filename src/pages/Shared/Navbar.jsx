@@ -41,6 +41,7 @@ const Navbar = () => {
     {
       user && <>
         <li><NavLink to='/add-book'>Add Book</NavLink></li>
+        <li><NavLink to='/borrowed-books'>Borrowed Books</NavLink></li>
       </>
     }
   </>
