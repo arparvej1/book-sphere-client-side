@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLoaderData, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,13 +10,35 @@ const BookDetails = () => {
   const { bookId } = useParams();
   const book = books.find(book => book._id === bookId);
   const { _id, name, image, author, category, quantity, rating, shortDescription, contents } = book;
+  const [borrowList, setBorrowList] = useState([]);
+
+  const loadBorrow = () => {
+    fetch(`${import.meta.env.VITE_VERCEL_API}/borrow`)
+      .then(res => res.json())
+      .then(data => {
+        setBorrowList(data);
+      })
+  }
+
+  useEffect(() => {
+    loadBorrow()
+  }, [])
+  console.log(borrowList);
 
   const handleBorrow = () => {
+    if (borrowList.find(borrow => borrow.borrowBookId.includes(_id))) {
+      toast.warn('Already Borrow the book!');
+      return;
+    }
     document.getElementById('borrowAdd').showModal();
     console.log('handleBorrow');
   }
   const handleAddBorrow = (e) => {
     e.preventDefault();
+    if (borrowList.find(borrow => borrow.borrowBookId.includes(_id))) {
+      toast.warn('Already Borrow the book!');
+      return;
+    }
     const form = e.target;
     const borrowDate = form.borrowDate.value;
     const bookReturnDate = form.bookReturnDate.value;
@@ -37,6 +59,7 @@ const BookDetails = () => {
           toast.success('Borrow the book!')
         }
         form.reset();
+        loadBorrow()
       })
     // --------- send server end -----
   }
@@ -101,9 +124,9 @@ const BookDetails = () => {
               </div>
             </form>
           </div>
-          <ToastContainer />
         </dialog>
       </div>
+      <ToastContainer />
     </>
   );
 };
