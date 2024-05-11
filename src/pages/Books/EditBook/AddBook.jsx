@@ -30,8 +30,8 @@ const AddBook = () => {
     const rating = form.rating.value;
     const image = form.image.value;
     const contents = form.contents.value;
-    const description = form.description.value;
-    const completeItem = { name, category, quantity, author, rating, image, contents, description, userUid: user.uid, userEmail: user.email, userName: user.displayName }
+    const shortDescription = form.shortDescription.value;
+    const completeItem = { name, category, quantity, author, rating, image, contents, shortDescription, userUid: user.uid, userEmail: user.email, userName: user.displayName }
 
     console.log(completeItem);
 
@@ -49,7 +49,7 @@ const AddBook = () => {
         if (data.acknowledged) {
           Swal.fire({
             title: 'Success!',
-            text: 'Successfully Add Item!',
+            text: 'Successfully Add Book!',
             icon: 'success',
             confirmButtonText: 'Okay'
           })
@@ -145,14 +145,14 @@ const AddBook = () => {
           </div>
           <div className="grid md:grid-cols-1 gap-5">
             <label className="flex flex-col gap-1 w-full">
-              <span>Contents</span>
-              <input type="text" name="contents" placeholder="Contents" className="input input-bordered w-full" required />
+              <span>Short Description</span>
+              <input type="text" name="shortDescription" placeholder="Short Description" className="input input-bordered w-full" required />
             </label>
           </div>
           <div className="gap-5">
             <label className="flex flex-col gap-1 w-full">
-              <span>Description</span>
-              <textarea name="description" placeholder="Description" className="textarea textarea-bordered h-24 w-full" required ></textarea>
+              <span>Contents</span>
+              <textarea name="contents" placeholder="Contents" className="textarea textarea-bordered h-24 w-full" required ></textarea>
             </label>
           </div>
           <div className="grid md:grid-cols-2 gap-5 border-[2px] p-4 border-info">
