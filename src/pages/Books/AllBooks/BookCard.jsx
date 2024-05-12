@@ -6,7 +6,7 @@ const BookCard = ({ book, activeLibrarian, handleDelete }) => {
 
   return (
     <div className='border-2 rounded-2xl p-5 flex flex-col justify-between'>
-      <div className='col-span-1 space-y-3  my-5'>
+      <div className='col-span-1 space-y-3 my-5'>
         <div className='flex justify-center items-center'>
           <img className='rounded-2xl' src={image} alt={name} />
         </div>

@@ -72,16 +72,14 @@ const BorrowedBooksCard = ({ borrowBook, myBorrowBooks, setMyBorrowBooks }) => {
         <div className='flex justify-center items-center'>
           <img className='rounded-2xl max-h-60' src={bookImage} alt={borrowBookName} />
         </div>
-        <div className='flex flex-col justify-between'>
+        <div className='flex flex-col justify-between gap-3'>
           <div className='flex flex-col gap-3 justify-center items-center md:items-start'>
             <h3 className='font-semibold text-2xl'>{borrowBookName}</h3>
-            <p>Category: {bookCategory}</p>
-            <p>Borrow Date: {borrowDate}</p>
-            <p>Return Date: {bookReturnDate}</p>
+            <p><span className='font-semibold'>Category:</span> {bookCategory}</p>
+            <p><span className='font-semibold'>Borrow Date:</span> {borrowDate}</p>
+            <p><span className='font-semibold'>Return Date:</span> {bookReturnDate}</p>
           </div>
           <button onClick={() => handleBookReturn(_id)} className='btn bg-secondary w-full text-secondary-content'>Book Return</button>
-        </div>
-        <div className='flex gap-5 justify-center'>
         </div>
       </div>
     </div>
