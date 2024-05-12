@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Swal from "sweetalert2";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const MyBookListCard = ({ book, myItems, setMyItems }) => {
   const { _id, name, image, author, rating, quantity, category } = book;
@@ -17,14 +18,11 @@ const MyBookListCard = ({ book, myItems, setMyItems }) => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-
-        fetch(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`, {
-          method: 'DELETE'
-        })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data);
-            if (data.deletedCount > 0) {
+        axios.delete(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`)
+          .then(function (response) {
+            // handle success
+            console.log(response.data);
+            if (response.data.deletedCount > 0) {
               Swal.fire(
                 'Deleted!',
                 'Your item has been deleted.',
@@ -33,6 +31,10 @@ const MyBookListCard = ({ book, myItems, setMyItems }) => {
               const remaining = myItems.filter(i => i._id !== _id);
               setMyItems(remaining);
             }
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
           })
       }
     })

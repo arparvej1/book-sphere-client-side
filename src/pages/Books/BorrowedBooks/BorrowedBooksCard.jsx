@@ -1,3 +1,4 @@
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import Swal from "sweetalert2";
 
@@ -17,13 +18,11 @@ const BorrowedBooksCard = ({ borrowBook, myBorrowBooks, setMyBorrowBooks }) => {
       confirmButtonText: 'Yes, return it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${import.meta.env.VITE_VERCEL_API}/borrow/${_id}`, {
-          method: 'DELETE'
-        })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data);
-            if (data.deletedCount > 0) {
+        axios.delete(`${import.meta.env.VITE_VERCEL_API}/borrow/${_id}`)
+          .then(function (response) {
+            // handle success
+            console.log(response.data);
+            if (response.data.deletedCount > 0) {
               Swal.fire(
                 'Deleted!',
                 'Your item has been deleted.',
@@ -33,6 +32,11 @@ const BorrowedBooksCard = ({ borrowBook, myBorrowBooks, setMyBorrowBooks }) => {
               setMyBorrowBooks(remaining);
             }
           })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+
       }
     })
 

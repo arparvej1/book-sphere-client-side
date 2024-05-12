@@ -12,6 +12,7 @@ const BookDetails = () => {
   const book = books.find(book => book._id === bookId);
   const { _id, name, image, author, category, quantity, rating, shortDescription, contents } = book;
   const [borrowList, setBorrowList] = useState([]);
+  const [currentStock, setCurrentStock] = useState(quantity);
 
   const loadBorrow = () => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/borrow`)
@@ -25,11 +26,29 @@ const BookDetails = () => {
       })
   }
 
-  useEffect(() => {
-    loadBorrow()
-  }, [])
+  const updateStock = () => {
+    axios.patch(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`, { quantity: parseInt(currentStock) - 1 })
+      .then(function (response) {
+        // handle success
+        console.log(response.data);
+        if (response.data.modifiedCount > 0) {
+          setCurrentStock(parseInt(currentStock) - 1);
+        }
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }
+
 
   const handleBorrow = () => {
+
+    if (currentStock <= 0) {
+      toast.warn('No stock available!')
+      return;
+    }
+
     if (borrowList.find(borrow => borrow.borrowBookId.includes(_id) && borrow.borrowEmail.includes(user.email))) {
       toast.warn('Already borrowed the book!');
       return;
@@ -54,16 +73,21 @@ const BookDetails = () => {
       .then(function (response) {
         console.log(response.data);
         if (response.data.acknowledged) {
+          updateStock();
           toast.success('Borrow the book!')
         }
         form.reset();
-        loadBorrow()
+        loadBorrow();
       })
       .catch(function (error) {
         console.log(error);
       });
     // --------- send server end -----
   }
+
+  useEffect(() => {
+    loadBorrow()
+  }, [])
 
   return (
     <>
@@ -84,14 +108,14 @@ const BookDetails = () => {
           <hr />
           <p className="text-justify"><span className="font-bold">Short Description:</span> {shortDescription}</p>
           <hr />
-          <p className="text-justify"><span className="font-bold">Stock:</span> {quantity}</p>
+          <p className="text-justify"><span className="font-bold">Stock:</span> {currentStock}</p>
           <hr />
           <p className="text-justify"><span className="font-bold">Rating:</span> {rating}</p>
           <hr />
           <p className="text-justify"><span className="font-bold">Contents:</span> {contents}</p>
           <hr />
           <div>
-            <button onClick={handleBorrow} className="btn bg-white hover:text-white hover:bg-[#23BE0A] border-gray-500 px-6">Borrow</button>
+            <button onClick={handleBorrow} className="btn bg-accent text-accent-content hover:bg-[#23BE0A] border-gray-500 px-6">Borrow</button>
           </div>
         </div>
       </div>

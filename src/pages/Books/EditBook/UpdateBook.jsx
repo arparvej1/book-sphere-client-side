@@ -47,17 +47,11 @@ const UpdateBook = () => {
     const completeItem = { name, category, quantity, author, rating, image, contents, shortDescription, userUid: user.uid, userEmail: user.email, userName: user.displayName }
 
     // --------- send server start -----
-    fetch(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(completeItem)
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.modifiedCount > 0) {
+    axios.put(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`, completeItem)
+      .then(function (response) {
+        // handle success
+        console.log(response.data);
+        if (response.data.modifiedCount > 0) {
           Swal.fire({
             title: 'Success!',
             text: 'Book Updated Successfully',
@@ -66,6 +60,10 @@ const UpdateBook = () => {
           })
           navigate(`/book/${_id}`)
         }
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
       })
     // --------- send server end -----
   }

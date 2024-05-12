@@ -62,14 +62,11 @@ const AllBooks = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-
-        fetch(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`, {
-          method: 'DELETE'
-        })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data);
-            if (data.deletedCount > 0) {
+        axios.delete(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`)
+          .then(function (response) {
+            // handle success
+            console.log(response.data);
+            if (response.data.deletedCount > 0) {
               Swal.fire(
                 'Deleted!',
                 'Your item has been deleted.',
@@ -78,6 +75,10 @@ const AllBooks = () => {
               const remaining = books.filter(i => i._id !== _id);
               setBooks(remaining);
             }
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
           })
       }
     })
