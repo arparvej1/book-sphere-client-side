@@ -69,7 +69,7 @@ const router = createBrowserRouter([
       {
         path: '/borrowed-books',
         element: <PrivateRoutes><BorrowedBooks></BorrowedBooks></PrivateRoutes>,
-        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
+        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/borrow`)
       },
       {
         path: '/category/:categoryName',

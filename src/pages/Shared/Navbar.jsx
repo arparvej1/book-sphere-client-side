@@ -45,14 +45,14 @@ const Navbar = () => {
         <li><NavLink to='/borrowed-books'>Borrowed Books</NavLink></li>
         {
           !activeLibrarian && <>
-            <li><NavLink to='/add-book'>Add Book.</NavLink></li>
+            <li><NavLink to='/add-book'>Add Book</NavLink></li>
           </>
         }
       </>
     }
     {
       user && activeLibrarian && <>
-        <li><NavLink to='/add-book'>Add Book</NavLink></li>
+        <li><NavLink to='/add-book'>Add Book.</NavLink></li>
       </>
     }
   </>

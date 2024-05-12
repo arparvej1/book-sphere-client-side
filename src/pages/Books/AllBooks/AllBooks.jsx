@@ -134,7 +134,7 @@ const AllBooks = () => {
                         <td className="md:text-sm lg:text-lg">{book.author}</td>
                         <td className="md:text-sm lg:text-lg">{book.quantity}</td>
                         <td className="md:text-sm lg:text-lg">{book.rating}</td>
-                        <td className="md:text-sm lg:text-lg"><Link to={`/book/${book._id}`} className="btn btn-link">View Details</Link></td>
+                        <td className="md:text-sm lg:text-lg"><Link to={`/book/${book._id}`} className="btn btn-link">Details</Link></td>
                         {
                           activeLibrarian ?
                             <>
