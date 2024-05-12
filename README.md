@@ -2,7 +2,7 @@
 
 Welcome to BookSphere, your ultimate destination for managing and exploring a diverse collection of books.
 
-[Live Site URL](https://my-book-sphere.web.app){:target="_blank"}
+[Live Site URL](https://my-book-sphere.web.app)
 
 ### Features:
 
