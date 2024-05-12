@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config.js";
 import PropTypes from 'prop-types';
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
@@ -75,13 +76,17 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_VERCEL_API}/librarians`)
-      .then(res => res.json())
-      .then(data => {
-        setLibrarians(data)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
+      .then(function (response) {
+        // handle success
+        setLibrarians(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
       })
   }, []);
-  
+
   const authInfo = {
     user,
     loading,

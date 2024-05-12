@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const UpdateBook = () => {
   const { user, loginCheck } = useContext(AuthContext);
@@ -15,10 +16,14 @@ const UpdateBook = () => {
   const [categoryList, setCategoryList] = useState([]);
 
   const loadCategory = () => {
-    fetch(`${import.meta.env.VITE_VERCEL_API}/category`)
-      .then(res => res.json())
-      .then(data => {
-        setCategoryList(data)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/category`)
+      .then(function (response) {
+        // handle success
+        setCategoryList(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
       })
   }
 

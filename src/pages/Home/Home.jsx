@@ -3,6 +3,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import { Helmet } from "react-helmet-async";
 import AllCategoryCard from "../Books/AllCategory/AllCategoryCard";
 import HomeBookCard from "./HomeBookCard";
+import axios from "axios";
 
 const Home = () => {
   const { user, loginCheck } = useContext(AuthContext);
@@ -12,18 +13,26 @@ const Home = () => {
   const [loading2, setLoading2] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
-      .then(res => res.json())
-      .then(data => {
-        setBooks(data);
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
+      .then(function (response) {
+        // handle success
+        setBooks(response.data);
         setLoading(false);
       })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
 
-      fetch(`${import.meta.env.VITE_VERCEL_API}/category`)
-      .then(res => res.json())
-      .then(data => {
-        setCategoryList(data);
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/category`)
+      .then(function (response) {
+        // handle success
+        setCategoryList(response.data);
         setLoading2(false);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
       })
   }, [])
 

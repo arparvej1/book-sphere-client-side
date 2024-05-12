@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useLoaderData, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../../../provider/AuthProvider";
+import axios from "axios";
 
 const BookDetails = () => {
   const { user } = useContext(AuthContext);
@@ -13,17 +14,20 @@ const BookDetails = () => {
   const [borrowList, setBorrowList] = useState([]);
 
   const loadBorrow = () => {
-    fetch(`${import.meta.env.VITE_VERCEL_API}/borrow`)
-      .then(res => res.json())
-      .then(data => {
-        setBorrowList(data);
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/borrow`)
+      .then(function (response) {
+        // handle success
+        setBorrowList(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
       })
   }
 
   useEffect(() => {
     loadBorrow()
   }, [])
-  console.log(borrowList);
 
   const handleBorrow = () => {
     if (borrowList.find(borrow => borrow.borrowBookId.includes(_id) && borrow.borrowEmail.includes(user.email))) {
@@ -34,7 +38,6 @@ const BookDetails = () => {
       return;
     }
     document.getElementById('borrowAdd').showModal();
-    console.log('handleBorrow');
   }
   const handleAddBorrow = (e) => {
     e.preventDefault();
@@ -45,25 +48,20 @@ const BookDetails = () => {
     const form = e.target;
     const borrowDate = form.borrowDate.value;
     const bookReturnDate = form.bookReturnDate.value;
-    const borrowBook = { borrowDate, bookReturnDate, borrowEmail: user.email, borrowBookId: _id };
-    console.log(borrowBook);
+    const borrowBook = { borrowDate, bookReturnDate, borrowEmail: user.email, borrowUserUid: user.uid, borrowBookId: _id };
     // --------- send server start -----
-    fetch(`${import.meta.env.VITE_VERCEL_API}/borrow`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(borrowBook)
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.acknowledged) {
+    axios.post(`${import.meta.env.VITE_VERCEL_API}/borrow`, borrowBook)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.acknowledged) {
           toast.success('Borrow the book!')
         }
         form.reset();
         loadBorrow()
       })
+      .catch(function (error) {
+        console.log(error);
+      });
     // --------- send server end -----
   }
 

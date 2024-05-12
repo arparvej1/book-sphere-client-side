@@ -6,6 +6,7 @@ import { FaList } from "react-icons/fa";
 import { IoGrid } from "react-icons/io5";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 
 const AllBooks = () => {
@@ -21,7 +22,7 @@ const AllBooks = () => {
     setDisplayLayout(localDisplayLayout);
   }, [displayLayout])
 
-   const handleDisplayLayoutBtn = (layout) => {
+  const handleDisplayLayoutBtn = (layout) => {
     if (layout === 'grid') {
       setDisplayLayout('grid')
     } else {
@@ -37,11 +38,16 @@ const AllBooks = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
-      .then(res => res.json())
-      .then(data => {
-        setBooks(data);
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
+      .then(function (response) {
+        // handle success
+        setBooks(response.data);
         setLoading(false);
+        console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
       })
   }, []);
 

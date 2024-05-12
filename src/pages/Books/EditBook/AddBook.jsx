@@ -3,16 +3,21 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import { Helmet } from "react-helmet-async";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const AddBook = () => {
   const { user, loginCheck } = useContext(AuthContext);
   const [categoryList, setCategoryList] = useState([]);
 
   const loadCategory = () => {
-    fetch(`${import.meta.env.VITE_VERCEL_API}/category`)
-      .then(res => res.json())
-      .then(data => {
-        setCategoryList(data)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/category`)
+      .then(function (response) {
+        // handle success
+        setCategoryList(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
       })
   }
 
@@ -36,17 +41,10 @@ const AddBook = () => {
     console.log(completeItem);
 
     // --------- send server start -----
-    fetch(`${import.meta.env.VITE_VERCEL_API}/books`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(completeItem)
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.acknowledged) {
+    axios.post(`${import.meta.env.VITE_VERCEL_API}/books`, completeItem)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.acknowledged) {
           Swal.fire({
             title: 'Success!',
             text: 'Successfully Add Book!',
@@ -56,6 +54,9 @@ const AddBook = () => {
         }
         form.reset();
       })
+      .catch(function (error) {
+        console.log(error);
+      });
     // --------- send server end -----
   }
 
@@ -70,22 +71,18 @@ const AddBook = () => {
     const category = { categoryName, categoryPhoto };
     console.log(category);
     // --------- send server start -----
-    fetch(`${import.meta.env.VITE_VERCEL_API}/category`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(category)
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.acknowledged) {
+    axios.post(`${import.meta.env.VITE_VERCEL_API}/category`, category)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.acknowledged) {
           toast.success('Successfully Add Category!')
         }
         form.reset();
         loadCategory();
       })
+      .catch(function (error) {
+        console.log(error);
+      });
     // --------- send server end -----
   }
 

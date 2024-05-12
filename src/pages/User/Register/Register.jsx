@@ -10,6 +10,7 @@ import { TbPhotoEdit } from "react-icons/tb";
 import { MdMailOutline } from "react-icons/md";
 import { GoLock } from "react-icons/go";
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
+import axios from 'axios';
 
 
 const Register = () => {
@@ -60,17 +61,13 @@ const Register = () => {
         setLoading(true);
         setAlreadyRegister(true);
         // --------- send server start -----
-        fetch(`${import.meta.env.VITE_VERCEL_API}/users`, {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify(newRegister)
-        })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data);
+        axios.post(`${import.meta.env.VITE_VERCEL_API}/users`, newRegister)
+          .then(function (response) {
+            console.log(response.data);
           })
+          .catch(function (error) {
+            console.log(error);
+          });
         // --------- send server end -----
         logOut();
         updateUserInfo(result.user, name, photo_url)
