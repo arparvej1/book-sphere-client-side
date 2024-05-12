@@ -1,13 +1,37 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import Swal from "sweetalert2";
 
 const BorrowedBooksCard = ({ borrowBook, myBorrowBooks, setMyBorrowBooks }) => {
-  const { _id, borrowDate, bookReturnDate, borrowBookName, bookCategory, bookImage } = borrowBook;
+  const { _id, borrowDate, bookReturnDate, borrowBookName, bookCategory, bookImage, borrowBookId } = borrowBook;
+  const [currentBook, setCurrentBook] = useState({});
+
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/book/${borrowBookId}`)
+      .then(function (response) {
+        // handle success
+        setCurrentBook(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }, [])
+
+  const updateStock = () => {
+    axios.patch(`${import.meta.env.VITE_VERCEL_API}/book/${borrowBookId}`, { quantity: parseInt(currentBook.quantity) + 1 })
+      .then(function (response) {
+        // handle success
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }
 
   const handleBookReturn = _id => {
-    console.log(_id);
-
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -28,6 +52,7 @@ const BorrowedBooksCard = ({ borrowBook, myBorrowBooks, setMyBorrowBooks }) => {
                 'Your item has been deleted.',
                 'success'
               )
+              updateStock();
               const remaining = myBorrowBooks.filter(i => i._id !== _id);
               setMyBorrowBooks(remaining);
             }
@@ -36,7 +61,6 @@ const BorrowedBooksCard = ({ borrowBook, myBorrowBooks, setMyBorrowBooks }) => {
             // handle error
             console.log(error);
           })
-
       }
     })
 

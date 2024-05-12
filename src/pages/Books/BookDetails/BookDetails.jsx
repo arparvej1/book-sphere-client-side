@@ -41,14 +41,11 @@ const BookDetails = () => {
       })
   }
 
-
   const handleBorrow = () => {
-
     if (currentStock <= 0) {
       toast.warn('No stock available!')
       return;
     }
-
     if (borrowList.find(borrow => borrow.borrowBookId.includes(_id) && borrow.borrowEmail.includes(user.email))) {
       toast.warn('Already borrowed the book!');
       return;
