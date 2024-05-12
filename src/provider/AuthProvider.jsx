@@ -76,7 +76,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/librarians`)
       .then(function (response) {
         // handle success
         setLibrarians(response.data);

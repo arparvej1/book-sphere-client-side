@@ -43,7 +43,6 @@ const AllBooks = () => {
         // handle success
         setBooks(response.data);
         setLoading(false);
-        console.log(response);
       })
       .catch(function (error) {
         // handle error

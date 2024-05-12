@@ -6,7 +6,8 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const Navbar = () => {
-  const { user, logOut, avatarIcon } = useContext(AuthContext);
+  const { user, logOut, librarians } = useContext(AuthContext);
+  const [activeLibrarian, setActiveLibrarian] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
 
   useEffect(() => {
@@ -24,6 +25,13 @@ const Navbar = () => {
     }
   }
 
+  useEffect(() => {
+    const filtered = librarians.filter(man => man?.email?.includes(user.email));
+    if (filtered.length > 0) {
+      setActiveLibrarian(true)
+    }
+  }, []);
+
   const handleLogOut = () => {
     logOut()
       .then(console.log('Successfully LogOut.'))
@@ -40,8 +48,12 @@ const Navbar = () => {
     }
     {
       user && <>
-        <li><NavLink to='/add-book'>Add Book</NavLink></li>
         <li><NavLink to='/borrowed-books'>Borrowed Books</NavLink></li>
+      </>
+    }
+    {
+      user && activeLibrarian && <>
+        <li><NavLink to='/add-book'>Add Book</NavLink></li>
       </>
     }
   </>
@@ -49,11 +61,14 @@ const Navbar = () => {
     {
       user && <>
         <li><NavLink to='/profile'>Profile</NavLink></li>
-        <li><NavLink to='/my-book-list'>My Book List</NavLink></li>
+        {
+          activeLibrarian &&
+          <li><NavLink to='/my-book-list'>My Book List</NavLink></li>
+        }
       </>
     }
   </>
-
+  
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -87,7 +102,7 @@ const Navbar = () => {
                 id="my-tooltip-1"
                 className='z-50'
                 place="bottom"
-                content={user.displayName || user.email} 
+                content={user.displayName || user.email}
               />
               <ul tabIndex={0} className="mt-3 z-[50] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                 <li className='my-2'>
