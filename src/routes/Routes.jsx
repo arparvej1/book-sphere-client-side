@@ -16,8 +16,6 @@ import MyBookList from "../pages/Books/MyBookList/MyBookList";
 import UpdateBook from "../pages/Books/EditBook/UpdateBook";
 import BorrowedBooks from "../pages/Books/BorrowedBooks/BorrowedBooks";
 import SelectedCategory from "../pages/Books/AllCategory/SelectedCategory";
-import LibrarianRoutes from "../PrivateRoutes/LibrarianRoutes";
-import LibrarianLoad from "../PrivateRoutes/LibrarianLoad";
 
 const router = createBrowserRouter([
   {

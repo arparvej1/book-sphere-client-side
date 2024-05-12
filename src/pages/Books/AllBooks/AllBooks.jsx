@@ -7,13 +7,14 @@ import { IoGrid } from "react-icons/io5";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
+import CheckLibrarian from "../../User/Librarian/CheckLibrarian";
 
 
 const AllBooks = () => {
-  const { user, librarians } = useContext(AuthContext);
+  const { loginCheck } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeLibrarian, setActiveLibrarian] = useState(false);
+  const activeLibrarian = CheckLibrarian();
   const [displayLayout, setDisplayLayout] = useState(localStorage.getItem('displayLayout') ? localStorage.getItem('displayLayout') : 'list');
 
   useEffect(() => {
@@ -31,13 +32,6 @@ const AllBooks = () => {
   }
 
   useEffect(() => {
-    const filtered = librarians.filter(man => man?.email?.includes(user.email));
-    if (filtered.length > 0) {
-      setActiveLibrarian(true)
-    }
-  }, []);
-
-  useEffect(() => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
       .then(function (response) {
         // handle success
@@ -52,6 +46,7 @@ const AllBooks = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    loginCheck();
   }, []);
 
 

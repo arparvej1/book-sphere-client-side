@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import CheckLibrarian from "../../User/Librarian/CheckLibrarian";
 
 const UpdateBook = () => {
   const { user, loginCheck } = useContext(AuthContext);
@@ -14,6 +15,7 @@ const UpdateBook = () => {
   const { _id, name, image, category, quantity, author, rating, shortDescription, contents } = book;
   const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState([]);
+  const activeLibrarian = CheckLibrarian();
 
   const loadCategory = () => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/category`)
@@ -72,6 +74,8 @@ const UpdateBook = () => {
     window.scrollTo(0, 0);
     loginCheck();
   }, []);
+
+  if (!activeLibrarian) return <h3 className="bg-base-300 w-full p-5 md:p-8 text-2xl md:text-5xl font-bold text-center rounded-3xl my-5">Only Librarian Update Book </h3>;
 
   return (
     <div>

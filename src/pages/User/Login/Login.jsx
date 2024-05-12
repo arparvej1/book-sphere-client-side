@@ -63,7 +63,8 @@ const Login = () => {
   const handleLoginWithGoogle = () => {
     signInWithGoogle()
       .then(result => {
-        console.log(result.user.uid);
+        // console.log(result.user.uid);
+        console.log('Login Success!');
         setAlreadyLogin(true);
         navigate(location?.state ? location.state : '/');
       })
@@ -75,7 +76,8 @@ const Login = () => {
   const handleLoginWithGithub = () => {
     signInWithGithub()
       .then(result => {
-        console.log(result.user);
+        // console.log(result.user);
+        console.log('Login Success!');
         setAlreadyLogin(true);
         navigate(location?.state ? location.state : '/');
       })

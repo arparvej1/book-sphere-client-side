@@ -4,10 +4,12 @@ import { Helmet } from "react-helmet-async";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import axios from "axios";
+import CheckLibrarian from "../../User/Librarian/CheckLibrarian";
 
 const AddBook = () => {
   const { user, loginCheck } = useContext(AuthContext);
   const [categoryList, setCategoryList] = useState([]);
+  const activeLibrarian = CheckLibrarian();
 
   const loadCategory = () => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/category`)
@@ -90,6 +92,8 @@ const AddBook = () => {
     window.scrollTo(0, 0);
     loginCheck();
   }, []);
+
+  if (!activeLibrarian) return <h3 className="bg-base-300 w-full p-5 md:p-8 text-2xl md:text-5xl font-bold text-center rounded-3xl my-5">Only Librarian Add Book </h3>;
 
   return (
     <div>

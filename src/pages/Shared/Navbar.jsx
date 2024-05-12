@@ -4,10 +4,11 @@ import { AuthContext } from '../../provider/AuthProvider';
 import { RxAvatar } from "react-icons/rx";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import CheckLibrarian from '../User/Librarian/CheckLibrarian';
 
 const Navbar = () => {
-  const { user, logOut, librarians } = useContext(AuthContext);
-  const [activeLibrarian, setActiveLibrarian] = useState(false);
+  const { user, logOut, avatarIcon } = useContext(AuthContext);
+  const activeLibrarian = CheckLibrarian();
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
 
   useEffect(() => {
@@ -24,13 +25,6 @@ const Navbar = () => {
       setTheme('light');
     }
   }
-
-  useEffect(() => {
-    const filtered = librarians.filter(man => man?.email?.includes(user.email));
-    if (filtered.length > 0) {
-      setActiveLibrarian(true)
-    }
-  }, []);
 
   const handleLogOut = () => {
     logOut()
@@ -49,6 +43,11 @@ const Navbar = () => {
     {
       user && <>
         <li><NavLink to='/borrowed-books'>Borrowed Books</NavLink></li>
+        {
+          !activeLibrarian && <>
+            <li><NavLink to='/add-book'>Add Book.</NavLink></li>
+          </>
+        }
       </>
     }
     {
@@ -68,7 +67,7 @@ const Navbar = () => {
       </>
     }
   </>
-  
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
