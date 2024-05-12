@@ -18,7 +18,13 @@ Welcome to BookSphere, your ultimate destination for managing and exploring a di
 
 ### Librarian Account:
 
-- Email: `librarian@my-book-sphere.web.app`  
-  Password: `A123@a`
+- Email: 
+``` 
+librarian@my-book-sphere.web.app
+```
+- Password: 
+``` 
+A123@a
+```
 
 Please note that the librarian account is required for adding, updating, and managing books in the collection.
