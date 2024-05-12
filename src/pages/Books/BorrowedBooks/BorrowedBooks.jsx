@@ -33,6 +33,8 @@ const BorrowedBooks = () => {
             myBorrowBooks.map(borrowBook => <BorrowedBooksCard
               key={borrowBook._id}
               borrowBook={borrowBook}
+              myBorrowBooks={myBorrowBooks}
+              setMyBorrowBooks={setMyBorrowBooks}
             ></BorrowedBooksCard>)
           }
         </div>
