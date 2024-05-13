@@ -71,7 +71,8 @@ const BookDetails = () => {
         console.log(response.data);
         if (response.data.acknowledged) {
           updateStock();
-          toast.success('Borrow the book!')
+          document.getElementById('borrowAdd').close();
+          toast.success('Borrow the book!');
         }
         form.reset();
         loadBorrow();
@@ -141,7 +142,7 @@ const BookDetails = () => {
               </div>
               <div className="gap-5">
                 <label className="flex flex-col gap-1 w-full">
-                  <input type="submit" value="Borrow" className="btn bg-secondary text-secondary-content w-full" />
+                  <input type="submit" value="Submit" className="btn bg-secondary text-secondary-content w-full" />
                 </label>
               </div>
             </form>

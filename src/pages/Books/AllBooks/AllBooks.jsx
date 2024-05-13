@@ -94,8 +94,10 @@ const AllBooks = () => {
         <div className="flex justify-end items-center gap-2 my-5">
           <p className="font-semibold text-xl">Display Layout</p>
           <div>
-            <span onClick={() => handleDisplayLayoutBtn('list')} className="btn rounded-l-2xl rounded-r-none text-2xl"><FaList /></span>
-            <span onClick={() => handleDisplayLayoutBtn('grid')} className="btn rounded-l-none rounded-r-2xl text-2xl"><IoGrid /></span>
+            <span onClick={() => handleDisplayLayoutBtn('list')}
+              className={`btn rounded-l-2xl rounded-r-none text-2xl ${displayLayout === 'list' ? 'bg-accent bg-opacity-50' : ''}`}><FaList /></span>
+            <span onClick={() => handleDisplayLayoutBtn('grid')}
+              className={`btn rounded-l-none rounded-r-2xl text-2xl ${displayLayout === 'grid' ? 'bg-accent bg-opacity-50' : ''}`}><IoGrid /></span>
           </div>
         </div>
         {/* --------------------- display view ------------------------- */}

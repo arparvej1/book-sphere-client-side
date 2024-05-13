@@ -10,6 +10,7 @@ import { GoLock } from 'react-icons/go';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import { MdMailOutline } from 'react-icons/md';
 import { AuthContext } from '../../../provider/AuthProvider';
+import axios from 'axios';
 
 
 const Login = () => {
@@ -63,9 +64,13 @@ const Login = () => {
   const handleLoginWithGoogle = () => {
     signInWithGoogle()
       .then(result => {
-        // console.log(result.user.uid);
+        console.log(result.user.displayName);
         console.log('Login Success!');
         setAlreadyLogin(true);
+        // axios.post(`${import.meta.env.VITE_VERCEL_API}/jwt`, result.user.email, { withCredentials: true })
+        //   .then(res => {
+        //     console.log(res.data);
+        //   })
         navigate(location?.state ? location.state : '/');
       })
       .catch(error => {
@@ -108,7 +113,7 @@ const Login = () => {
               </label>
             </div>
             <div>
-              <span  className='text-white'>Password:</span>
+              <span className='text-white'>Password:</span>
               <label className="flex items-center input input-bordered gap-3" htmlFor="email">
                 <GoLock />
                 <div className="flex justify-between items-center w-full bg-transparent">

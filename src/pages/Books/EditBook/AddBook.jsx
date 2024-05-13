@@ -77,7 +77,8 @@ const AddBook = () => {
       .then(function (response) {
         console.log(response.data);
         if (response.data.acknowledged) {
-          toast.success('Successfully Add Category!')
+          document.getElementById('categoryAdd').close();
+          toast.success('Successfully Add Category!');
         }
         form.reset();
         loadCategory();
@@ -203,9 +204,9 @@ const AddBook = () => {
               </div>
             </form>
           </div>
-          <ToastContainer />
         </dialog>
       </div>
+      <ToastContainer />
     </div>
   );
 };
