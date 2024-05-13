@@ -52,7 +52,7 @@ const Navbar = () => {
     }
     {
       user && activeLibrarian && <>
-        <li><NavLink to='/add-book'>Add Book.</NavLink></li>
+        <li><NavLink to='/add-book'>Add Book</NavLink></li>
       </>
     }
   </>

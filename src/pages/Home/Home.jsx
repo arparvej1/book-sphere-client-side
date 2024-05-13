@@ -4,6 +4,8 @@ import AllCategoryCard from "../Books/AllCategory/AllCategoryCard";
 import HomeBookCard from "./HomeBookCard";
 import axios from "axios";
 import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
+import './home.css';
 // --------------- Swiper Start ------------------------
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
@@ -15,6 +17,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { BiSolidCategoryAlt } from "react-icons/bi";
+import { toast } from "react-toastify";
 // --------------- Swiper End ------------------------
 
 const Home = () => {
@@ -23,6 +26,7 @@ const Home = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
@@ -46,7 +50,44 @@ const Home = () => {
         // handle error
         console.log(error);
       })
+
+    axios.get(`${import.meta.env.VITE_VERCEL_API_REVIEW}/review`)
+      .then(function (response) {
+        // handle success
+        setReviews(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
   }, []);
+
+  const handleSubscribeEmail = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const subscribeEmail = form.subscribeEmail.value;
+    const subscribeItem = { subscribeEmail }
+    console.log(subscribeEmail);
+
+    // --------- send server start -----
+    axios.post(`${import.meta.env.VITE_VERCEL_API}/subscriber`, subscribeItem)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.acknowledged) {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Thanks for Subscribed!',
+            icon: 'success',
+            confirmButtonText: 'Okay'
+          })
+        }
+        form.reset();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // --------- send server end -----
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -149,6 +190,59 @@ const Home = () => {
         </div>
       </div>
       {/* ------------- books category card end -------------- */}
+      {/* ---------- slider review start ------------ */}
+      <div className='my-6 md:my-10'>
+        <Swiper
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          loop={true}
+          modules={[Autoplay, Pagination]}
+          className="mySwiper">
+          {
+            reviews.map((review, idx) => (
+              <SwiperSlide key={idx} >
+                <div className={`w-full flex flex-col gap-3 justify-center items-center pb-6`}>
+                  <div className='border-2 rounded-full'>
+                    <img className="w-32 h-32 rounded-full p-2" src={review.reviewerPhoto} />
+                  </div>
+                  <p className='w-10/12 md:w-8/12 text-xl md:text-2xl courgette-regular text-center'>
+                    {review.reviewText}
+                  </p>
+                  <div className="divider md:w-3/12 mx-auto">{review.reviewerName}</div>
+                </div>
+              </SwiperSlide>
+            ))
+          }
+        </Swiper>
+      </div>
+      {/* ---------- slider review End ------------ */}
+      {/* News Subscriber start */}
+      <p className="max-w-2xl text-center my-5 px-5 mx-auto">
+        Elevate your reading journey with BookSphere. Subscribe now for the latest updates and curated selections. Don't miss out!
+      </p>
+      <div className="max-w-96 px-5 mx-auto">
+        <form onSubmit={handleSubscribeEmail} className="flex flex-col gap-5">
+          <div>
+            <label className="flex flex-col gap-1 w-full">
+              <span></span>
+              <input type="email" name="subscribeEmail" placeholder="Enter your email.." className="input input-bordered w-full" required />
+            </label>
+          </div>
+          <div className="gap-5">
+            <label className="flex flex-col gap-1 w-full">
+              <input type="submit" value="Subscribe" className="btn bg-secondary text-secondary-content w-full" />
+            </label>
+          </div>
+        </form>
+      </div>
+      {/* News Subscriber end */}
     </div>
   );
 };
