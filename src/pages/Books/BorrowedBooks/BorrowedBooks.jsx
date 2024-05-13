@@ -13,7 +13,7 @@ const BorrowedBooks = () => {
   useEffect(() => {
     const filtered = borrowList.filter(book => book?.borrowUserUid?.includes(user.uid));
     setMyBorrowBooks(filtered);
-  }, [])
+  }, []);
 
 
   useEffect(() => {

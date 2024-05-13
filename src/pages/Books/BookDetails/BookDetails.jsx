@@ -64,7 +64,7 @@ const BookDetails = () => {
     const form = e.target;
     const borrowDate = form.borrowDate.value;
     const bookReturnDate = form.bookReturnDate.value;
-    const borrowBook = { borrowDate, bookReturnDate, borrowBookName: name, bookCategory: category, bookImage: image, borrowEmail: user.email, borrowUserUid: user.uid, borrowBookId: _id };
+    const borrowBook = { borrowDate, bookReturnDate, borrowEmail: user.email, borrowUserUid: user.uid, borrowBookId: _id };
     // --------- send server start -----
     axios.post(`${import.meta.env.VITE_VERCEL_API}/borrow`, borrowBook)
       .then(function (response) {
