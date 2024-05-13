@@ -45,7 +45,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/all-books',
-        element: <PrivateRoutes><AllBooks></AllBooks></PrivateRoutes>
+        element: <PrivateRoutes><AllBooks></AllBooks></PrivateRoutes>,
+        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
       },
       {
         path: '/book/:bookId',

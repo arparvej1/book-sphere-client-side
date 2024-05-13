@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useContext, useEffect, useState } from "react";
 import BookCard from "./BookCard";
@@ -8,11 +8,14 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
 import CheckLibrarian from "../../User/Librarian/CheckLibrarian";
+import { IoIosArrowDown } from "react-icons/io";
 
 
 const AllBooks = () => {
   const { loginCheck } = useContext(AuthContext);
-  const [books, setBooks] = useState([]);
+  const [loadBooks2, setLoadBooks] = useState([]);
+  const loadBooks = useLoaderData();
+  const [books, setBooks] = useState([...loadBooks]);
   const [loading, setLoading] = useState(true);
   const activeLibrarian = CheckLibrarian();
   const [displayLayout, setDisplayLayout] = useState(localStorage.getItem('displayLayout') ? localStorage.getItem('displayLayout') : 'list');
@@ -32,23 +35,32 @@ const AllBooks = () => {
   }
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
-      .then(function (response) {
-        // handle success
-        setBooks(response.data);
-        setLoading(false);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
+    // axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
+    //   .then(function (response) {
+    //     // handle success
+    //     setLoadBooks(response.data);
+    //     setLoading(false);
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log(error);
+    //   })
+
+    setLoading(false);
   }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    loginCheck();
-  }, []);
-
+  const handleFilter = (filterBy) => {
+    if (filterBy === 'All') {
+      // const filtered = books.filter(book => book?.userUid?.includes(user.uid));
+      setBooks([...loadBooks]);
+    } else if (filterBy === 'Available') {
+      const filtered = loadBooks.filter(book => book?.quantity > 0);
+      setBooks(filtered);
+    } else if (filterBy === 'Not') {
+      const filtered = loadBooks.filter(book => book?.quantity == 0);
+      setBooks(filtered);
+    }
+  }
 
   const handleDelete = _id => {
     console.log(_id);
@@ -84,20 +96,36 @@ const AllBooks = () => {
     })
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    loginCheck();
+  }, []);
+
   return (
     <div>
       <Helmet>
         <title> All Books | BookSphere </title>
       </Helmet>
       <h3 className="bg-base-300 w-full p-5 md:p-8 text-2xl md:text-5xl font-bold text-center rounded-3xl my-5">All Books </h3>
+      <div className='my-6 text-center'>
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn m-1 bg-[#23BE0A] hover:bg-[#22be0ac5] text-white w-52">Filter By <IoIosArrowDown className='text-2xl' />
+          </div>
+          <ul tabIndex={0} className="dropdown-content z-50 menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><Link onClick={() => handleFilter('All')}>Show all books</Link></li>
+            <li><Link onClick={() => handleFilter('Available')}>Show available books</Link></li>
+            <li><Link onClick={() => handleFilter('Not')}>Not Available</Link></li>
+          </ul>
+        </div>
+      </div>
       <div>
         <div className="flex justify-end items-center gap-2 my-5">
-          <p className="font-semibold text-xl">Display Layout</p>
+          <p className="font-semibold md:text-xl">Display Layout</p>
           <div>
             <span onClick={() => handleDisplayLayoutBtn('list')}
-              className={`btn rounded-l-2xl rounded-r-none text-2xl ${displayLayout === 'list' ? 'bg-accent bg-opacity-50' : ''}`}><FaList /></span>
+              className={`btn rounded-l-2xl rounded-r-none text-xl md:text-2xl ${displayLayout === 'list' ? 'bg-accent bg-opacity-50' : ''}`}><FaList /></span>
             <span onClick={() => handleDisplayLayoutBtn('grid')}
-              className={`btn rounded-l-none rounded-r-2xl text-2xl ${displayLayout === 'grid' ? 'bg-accent bg-opacity-50' : ''}`}><IoGrid /></span>
+              className={`btn rounded-l-none rounded-r-2xl text-xl md:text-2xl ${displayLayout === 'grid' ? 'bg-accent bg-opacity-50' : ''}`}><IoGrid /></span>
           </div>
         </div>
         {/* --------------------- display view ------------------------- */}

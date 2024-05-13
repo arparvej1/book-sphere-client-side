@@ -10,7 +10,7 @@ const BookCard = ({ book, activeLibrarian, handleDelete }) => {
         <div className='flex justify-center items-center'>
           <img className='rounded-2xl' src={image} alt={name} />
         </div>
-        <div className='flex flex-col gap-3 justify-center'>
+        <div className='flex flex-col gap-2 justify-center'>
           <h3 className='font-semibold text-2xl'>{name}</h3>
           <p>Author: {author}</p>
           <p>Rating: {rating}</p>
