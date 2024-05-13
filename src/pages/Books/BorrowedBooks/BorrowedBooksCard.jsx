@@ -75,7 +75,7 @@ const BorrowedBooksCard = ({ borrowBook, myBorrowBooks, setMyBorrowBooks }) => {
           <img className='rounded-2xl max-h-60' src={image} alt={name} />
         </div>
         <div className='flex flex-col justify-between gap-3'>
-          <div className='flex flex-col gap-3 justify-center items-center md:items-start'>
+          <div className='flex flex-col gap-2 justify-center items-center md:items-start'>
             <h3 className='font-semibold text-2xl hover:underline'><Link to={`/book/${borrowBookId}`}>{name}</Link></h3>
             <p><span className='font-semibold'>Category:</span> {category}</p>
             <p><span className='font-semibold'>Borrow Date:</span> {borrowDate}</p>

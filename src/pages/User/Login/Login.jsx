@@ -65,13 +65,16 @@ const Login = () => {
     signInWithGoogle()
       .then(result => {
         console.log(result.user.displayName);
+        console.log(result.user.email);
         console.log('Login Success!');
         setAlreadyLogin(true);
-        // axios.post(`${import.meta.env.VITE_VERCEL_API}/jwt`, result.user.email, { withCredentials: true })
-        //   .then(res => {
-        //     console.log(res.data);
-        //   })
-        navigate(location?.state ? location.state : '/');
+        axios.post(`${import.meta.env.VITE_VERCEL_API}/jwt`, result.user.email, { withCredentials: true })
+          .then(res => {
+            console.log(res.data);
+            if (res.data.success) {
+              navigate(location?.state ? location.state : '/');
+            }
+          })
       })
       .catch(error => {
         console.log(error);

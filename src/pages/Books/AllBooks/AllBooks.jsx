@@ -12,10 +12,10 @@ import { IoIosArrowDown } from "react-icons/io";
 
 
 const AllBooks = () => {
-  const { loginCheck } = useContext(AuthContext);
-  const [loadBooks2, setLoadBooks] = useState([]);
-  const loadBooks = useLoaderData();
-  const [books, setBooks] = useState([...loadBooks]);
+  const { user, loginCheck } = useContext(AuthContext);
+  // const loadBooks = useLoaderData();
+  const [loadBooks, setLoadBooks] = useState([]);
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const activeLibrarian = CheckLibrarian();
   const [displayLayout, setDisplayLayout] = useState(localStorage.getItem('displayLayout') ? localStorage.getItem('displayLayout') : 'list');
@@ -35,18 +35,17 @@ const AllBooks = () => {
   }
 
   useEffect(() => {
-    // axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
-    //   .then(function (response) {
-    //     // handle success
-    //     setLoadBooks(response.data);
-    //     setLoading(false);
-    //   })
-    //   .catch(function (error) {
-    //     // handle error
-    //     console.log(error);
-    //   })
-
-    setLoading(false);
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/books?email=${user?.email}`, { withCredentials: true })
+      .then(function (response) {
+        // handle success
+        setLoadBooks(response.data);
+        setBooks(response.data);
+        setLoading(false);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
   }, []);
 
   const handleFilter = (filterBy) => {
@@ -182,12 +181,6 @@ const AllBooks = () => {
                     }
                   </tbody>
                 </table>
-                {
-                  loading &&
-                  <div className="flex justify-center">
-                    <span className="loading loading-spinner loading-lg"></span>
-                  </div>
-                }
               </div>
             </div>
             :
@@ -202,13 +195,13 @@ const AllBooks = () => {
                   handleDelete={handleDelete}
                 ></BookCard>)
               }
-              {
-                loading &&
-                <div className="flex justify-center">
-                  <span className="loading loading-spinner loading-lg"></span>
-                </div>
-              }
             </div>
+        }
+        {
+          loading &&
+          <div className="flex justify-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
         }
       </div>
     </div>

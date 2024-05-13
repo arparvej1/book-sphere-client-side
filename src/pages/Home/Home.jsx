@@ -6,14 +6,14 @@ import axios from "axios";
 import { AuthContext } from "../../provider/AuthProvider";
 
 const Home = () => {
-  const { loginCheck } = useContext(AuthContext);
+  const {user, loginCheck } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/books?email=${user?.email}`, {withCredentials: true})
       .then(function (response) {
         // handle success
         setBooks(response.data);

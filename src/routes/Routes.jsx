@@ -16,6 +16,7 @@ import MyBookList from "../pages/Books/MyBookList/MyBookList";
 import UpdateBook from "../pages/Books/EditBook/UpdateBook";
 import BorrowedBooks from "../pages/Books/BorrowedBooks/BorrowedBooks";
 import SelectedCategory from "../pages/Books/AllCategory/SelectedCategory";
+import axios from "axios";
 
 const router = createBrowserRouter([
   {
@@ -45,8 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/all-books',
-        element: <PrivateRoutes><AllBooks></AllBooks></PrivateRoutes>,
-        loader: () => fetch(`${import.meta.env.VITE_VERCEL_API}/books`)
+        element: <PrivateRoutes><AllBooks></AllBooks></PrivateRoutes>
       },
       {
         path: '/book/:bookId',
