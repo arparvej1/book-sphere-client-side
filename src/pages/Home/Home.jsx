@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import AllCategoryCard from "../Books/AllCategory/AllCategoryCard";
 import HomeBookCard from "./HomeBookCard";
 import axios from "axios";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Home = () => {
+  const { loginCheck } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,7 +34,12 @@ const Home = () => {
         // handle error
         console.log(error);
       })
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    loginCheck();
+  }, []);
 
   return (
     <div>

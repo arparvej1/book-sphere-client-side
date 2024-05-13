@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const { user, loginCheck, alreadyUpdate, setAlreadyUpdate } = useContext(AuthContext);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     loginCheck();

@@ -6,7 +6,7 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import axios from "axios";
 
 const BookDetails = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loginCheck } = useContext(AuthContext);
   const books = useLoaderData();
   const { bookId } = useParams();
   const book = books.find(book => book._id === bookId);
@@ -85,7 +85,12 @@ const BookDetails = () => {
 
   useEffect(() => {
     loadBorrow()
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    loginCheck();
+  }, []);
 
   return (
     <>
