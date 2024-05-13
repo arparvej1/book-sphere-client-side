@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useContext, useEffect, useState } from "react";
 import BookCard from "./BookCard";
@@ -12,8 +12,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 
 const AllBooks = () => {
-  const { user, loginCheck } = useContext(AuthContext);
-  // const loadBooks = useLoaderData();
+  const { loginCheck } = useContext(AuthContext);
   const [loadBooks, setLoadBooks] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +34,7 @@ const AllBooks = () => {
   }
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/books?email=${user?.email}`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
       .then(function (response) {
         // handle success
         setLoadBooks(response.data);
