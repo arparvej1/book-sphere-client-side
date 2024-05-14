@@ -17,7 +17,6 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { BiSolidCategoryAlt } from "react-icons/bi";
-import { toast } from "react-toastify";
 // --------------- Swiper End ------------------------
 
 const Home = () => {
@@ -100,7 +99,7 @@ const Home = () => {
         <title> BookSphere - Library </title>
       </Helmet>
       {/* ---------- slider banner start ------------ */}
-      <div className='mb-10 mt-5'>
+      <div className='mb-10 mt-5 md:mt-8'>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -140,14 +139,13 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-
             </SwiperSlide>)
           }
         </Swiper>
       </div>
       {/* ---------- slider banner End ------------ */}
       {/* ------------ books card start ------------- */}
-      <div>
+      <div className="mt-5 md:mt-10 lg:mt-24">
         < h3 className="font-semibold md:mt-10 text-xl md:text-2xl lg:text-3xl text-base-content mx-auto text-center"> Explore Our Diverse Collection</h3>
         <p className="my-5 md:my-8 text-center md:w-2/3 mx-auto">Welcome to our virtual library! Immerse yourself in a curated world of knowledge and imagination. Explore our diverse collection. Whether you're seeking inspiration, information, or simply a captivating read, begin your journey of discovery with us today!</p>
         <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -168,7 +166,7 @@ const Home = () => {
       </div>
       {/* ------------- books card end -------------- */}
       {/* ------------ books category card start ------------- */}
-      <div className="border-t-2 rounded-2xl mt-5 md:mt-10 border-info">
+      <div className="border-t-2 rounded-2xl mt-5 md:mt-10 lg:mt-24 border-info">
         <div className="max-w-screen-xl mx-5 mt-5 md:mt-10 xl:px-5 2xl:px-0 xl:mx-auto">
           < h3 className="font-semibold text-xl md:text-2xl lg:text-3xl text-base-content mx-auto text-center">Books Categories</h3>
           <p className="my-5 text-center md:w-2/3 mx-auto">BookSphere showcases a diverse range of art and craft categories, including ceramics, pottery, painting, sculpture, textile art, and woodworking, each offering unique handcrafted items to adorn your living spaces with elegance and charm.</p>
@@ -191,7 +189,7 @@ const Home = () => {
       </div>
       {/* ------------- books category card end -------------- */}
       {/* ---------- slider review start ------------ */}
-      <div className='my-6 md:my-10'>
+      <div className='my-6 md:my-10 md:mt-10 lg:mt-24'>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -224,7 +222,7 @@ const Home = () => {
       </div>
       {/* ---------- slider review End ------------ */}
       {/* News Subscriber start */}
-      <p className="max-w-2xl text-center my-5 px-5 mx-auto">
+      <p className="max-w-2xl text-center my-5 px-5 md:mt-10 lg:mt-24 mx-auto">
         Elevate your reading journey with BookSphere. Subscribe now for the latest updates and curated selections. Don't miss out!
       </p>
       <div className="max-w-96 px-5 mx-auto">
