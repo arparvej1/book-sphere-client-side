@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import CheckLibrarian from "../../User/Librarian/CheckLibrarian";
 import { IoIosArrowDown } from "react-icons/io";
+import { ToastContainer } from "react-toastify";
 
 
 const AllBooks = () => {
@@ -271,6 +272,7 @@ const AllBooks = () => {
           </select>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
