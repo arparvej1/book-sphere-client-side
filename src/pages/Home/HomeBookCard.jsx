@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import ReactStars from "react-rating-stars-component";
 
 const HomeBookCard = ({ book }) => {
-  const { _id, name, image, author, rating, category } = book;
+  const { _id, name, image, author, rating, quantity, category } = book;
 
   return (
     <div className='border-2 rounded-2xl p-5 flex flex-col justify-between'>
@@ -13,7 +14,15 @@ const HomeBookCard = ({ book }) => {
         <div className='flex flex-col gap-2 justify-center'>
           <h3 className='font-semibold text-2xl'>{name}</h3>
           <p>Author: {author}</p>
-          <p>Rating: {rating}</p>
+          <p className='flex gap-2 items-center'><span>Rating:</span>
+            <ReactStars
+              size={24}
+              activeColor="#ffd700"
+              value={rating}
+              edit={false}
+            />
+          </p>
+          <p>Stock: {quantity}</p>
           <p>Category: {category}</p>
         </div>
       </div>
