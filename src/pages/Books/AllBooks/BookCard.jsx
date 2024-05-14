@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import ReactStars from "react-rating-stars-component";
 
 const BookCard = ({ book, activeLibrarian, handleDelete }) => {
   const { _id, name, image, author, rating, quantity, category } = book;
@@ -13,21 +14,28 @@ const BookCard = ({ book, activeLibrarian, handleDelete }) => {
         <div className='flex flex-col gap-2 justify-center'>
           <h3 className='font-semibold text-2xl'>{name}</h3>
           <p>Author: {author}</p>
-          <p>Rating: {rating}</p>
+          <p className='flex gap-2 items-center'><span>Rating:</span>
+            <ReactStars
+              size={24}
+              activeColor="#ffd700"
+              value={rating}
+              edit={false}
+            />
+          </p>
+          <p>Stock: {quantity}</p>
           <p>Category: {category}</p>
-          <p>Category: {quantity}</p>
         </div>
       </div>
-        <div className='flex gap-5 justify-center'>
-          {
-            activeLibrarian ? <>
-              <Link to={`/update-book/${_id}`} className='btn bg-accent text-accent-content'>Update</Link>
-              <button onClick={() => handleDelete(_id)} className='btn bg-secondary text-secondary-content'>Delete</button>
-            </>
-              : undefined
-          }
-          <Link to={`/book/${_id}`} className={`btn bg-primary text-primary-content ${!activeLibrarian ? 'w-full' : undefined}`}>Details</Link>
-        </div>
+      <div className='flex gap-5 justify-center'>
+        {
+          activeLibrarian ? <>
+            <Link to={`/update-book/${_id}`} className='btn bg-accent text-accent-content'>Update</Link>
+            <button onClick={() => handleDelete(_id)} className='btn bg-secondary text-secondary-content'>Delete</button>
+          </>
+            : undefined
+        }
+        <Link to={`/book/${_id}`} className={`btn bg-primary text-primary-content ${!activeLibrarian ? 'w-full' : undefined}`}>Details</Link>
+      </div>
     </div>
   );
 };
