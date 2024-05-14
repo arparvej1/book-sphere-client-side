@@ -1,21 +1,32 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
-import { useLoaderData } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ToastContainer } from "react-toastify";
 import BorrowedBooksCard from "./BorrowedBooksCard";
+import axios from "axios";
 
 const BorrowedBooks = () => {
   const { user, loginCheck } = useContext(AuthContext);
-  const borrowList = useLoaderData();
   const [myBorrowBooks, setMyBorrowBooks] = useState([]);
 
+  const callMyBorrow = async () => {
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/borrow?email=${user?.email}`, { withCredentials: true })
+      .then(function (response) {
+        // handle success
+        setMyBorrowBooks(response.data);
+        // setLoading(false);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }
+
   useEffect(() => {
-    const filtered = borrowList.filter(book => book?.borrowUserUid?.includes(user.uid));
-    setMyBorrowBooks(filtered);
+    callMyBorrow();
   }, []);
 
-
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     loginCheck();

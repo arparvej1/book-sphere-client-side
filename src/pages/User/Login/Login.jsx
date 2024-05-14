@@ -10,8 +10,6 @@ import { GoLock } from 'react-icons/go';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import { MdMailOutline } from 'react-icons/md';
 import { AuthContext } from '../../../provider/AuthProvider';
-import axios from 'axios';
-
 
 const Login = () => {
   const { user, signInUser, signInWithGoogle, signInWithGithub, registerCheck, setAlreadyLogin, textDot, setTextDot } = useContext(AuthContext);
@@ -68,16 +66,7 @@ const Login = () => {
         console.log(result.user.email);
         console.log('Login Success!');
         setAlreadyLogin(true);
-        axios.post(`${import.meta.env.VITE_VERCEL_API}/jwt`, result.user.email, { withCredentials: true })
-          .then(res => {
-            console.log(res.data);
-            if (res.data.success) {
-              navigate(location?.state ? location.state : '/');
-            }
-          })
-      })
-      .catch(error => {
-        console.log(error);
+        navigate(location?.state ? location.state : '/');
       });
   }
 
