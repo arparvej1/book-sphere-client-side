@@ -17,6 +17,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { BiSolidCategoryAlt } from "react-icons/bi";
+import { ToastContainer, toast } from "react-toastify";
 // --------------- Swiper End ------------------------
 
 const Home = () => {
@@ -69,17 +70,27 @@ const Home = () => {
     console.log(subscribeEmail);
 
     // --------- send server start -----
-    axios.post(`${import.meta.env.VITE_VERCEL_API}/subscriber`, subscribeItem)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/checkSubscriber?email=${subscribeEmail}`)
       .then(function (response) {
         console.log(response.data);
-        if (response.data.acknowledged) {
-          Swal.fire({
-            title: 'Success!',
-            text: 'Thanks for Subscribed!',
-            icon: 'success',
-            confirmButtonText: 'Okay'
-          })
-        }
+        if (!response.data.subscribed) {
+          axios.post(`${import.meta.env.VITE_VERCEL_API}/subscriber`, subscribeItem)
+            .then(function (response) {
+              console.log(response.data);
+              if (response.data.acknowledged) {
+                Swal.fire({
+                  title: 'Success!',
+                  text: 'Thanks for Subscribed!',
+                  icon: 'success',
+                  confirmButtonText: 'Okay'
+                })
+              }
+              form.reset();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        } else toast.warn('You are already subscribed!')
         form.reset();
       })
       .catch(function (error) {
@@ -241,6 +252,7 @@ const Home = () => {
         </form>
       </div>
       {/* News Subscriber end */}
+      <ToastContainer />
     </div>
   );
 };
