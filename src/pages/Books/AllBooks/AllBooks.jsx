@@ -18,26 +18,31 @@ const AllBooks = () => {
   const activeLibrarian = CheckLibrarian();
   const [displayLayout, setDisplayLayout] = useState(localStorage.getItem('displayLayout') ? localStorage.getItem('displayLayout') : 'list');
 
-  // ----------------- checking -----------------------
-  const [products, setProducts] = useState([]);
+  // ----------------- pagination -----------------------
+  const [filterQty, setFilterQty] = useState(2);
   const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [count, setCount] = useState(0);
 
   const numberOfPages = Math.ceil(count / itemsPerPage);
   const pages = [...Array(numberOfPages).keys()];
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_VERCEL_API}/booksCount`)
-      .then(res => res.json())
-      .then(data => setCount(data.count))
-  }, [])
+  const callBooksCount = async (value) => {
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/booksCount?filterQty=${value}`)
+      .then(function (response) {
+        // handle success
+        setCount(response.data.count)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }
 
   const callLoadBooks = async (value) => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}&filterQty=${value}`)
       .then(function (response) {
         // handle success
-        // setLoadBooks(response.data);
         setBooks(response.data);
         setLoading(false);
       })
@@ -48,25 +53,30 @@ const AllBooks = () => {
   }
 
   useEffect(() => {
-    // fetch(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}`)
-    //   .then(res => res.json())
-    //   .then(data => setProducts(data))
-    callLoadBooks(2);
-    // axios.get(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}`)
-    // .then(function (response) {
-    //   // handle success
-    //   setLoadBooks(response.data);
-    //   setBooks(response.data);
-    //   setLoading(false);
-    // })
-    // .catch(function (error) {
-    //   // handle error
-    //   console.log(error);
-    // })
-    console.log(books);
-  }, [currentPage, itemsPerPage]);
+    callBooksCount(filterQty);
+    callLoadBooks(filterQty);
+  }, [currentPage, itemsPerPage, filterQty]);
 
-  // ------------------- checking end ------------------
+  const handleItemsPerPage = e => {
+    const val = parseInt(e.target.value);
+    console.log(val);
+    setItemsPerPage(val);
+    setCurrentPage(0);
+  }
+
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
+  // ------------------- pagination end ------------------
 
   useEffect(() => {
     localStorage.setItem('displayLayout', displayLayout);
@@ -82,50 +92,18 @@ const AllBooks = () => {
     }
   }
 
-  // useEffect(() => {
-  //   axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
-  //     .then(function (response) {
-  //       // handle success
-  //       setLoadBooks(response.data);
-  //       setBooks(response.data);
-  //       setLoading(false);
-  //     })
-  //     .catch(function (error) {
-  //       // handle error
-  //       console.log(error);
-  //     })
-  // }, []);
-  // const setFilterValue = async (value) => {
-  //   await setFilterQty(value)
-  //   await callLoadBooks();
-  // }
-
   const handleFilter = async (filterBy) => {
     if (filterBy === 'All') {
+      setFilterQty(2);
       await callLoadBooks(2);
     } else if (filterBy === 'Available') {
+      setFilterQty(1);
       await callLoadBooks(1);
     } else if (filterBy === 'Not') {
+      setFilterQty(0);
       await callLoadBooks(0);
     }
   }
-
-
-  // const handleFilter = async (filterBy) => {
-  //   if (filterBy === 'All') {
-  //     setFilterQty(2);
-  //     // setBooks([...loadBooks]);
-  //   } else if (filterBy === 'Available') {
-  //     setFilterQty(1);
-  //     // const filtered = loadBooks.filter(book => book?.quantity > 0);
-  //     // setBooks(filtered);
-  //   } else if (filterBy === 'Not') {
-  //     setFilterQty(0);
-  //     // const filtered = loadBooks.filter(book => book?.quantity == 0);
-  //     // setBooks(filtered);
-  //   }
-  //   callLoadBooks();
-  // }
 
   const handleDelete = _id => {
     console.log(_id);
@@ -183,6 +161,7 @@ const AllBooks = () => {
           </ul>
         </div>
       </div>
+      {/* ------------------------- all books display start ------------------ */}
       <div>
         <div className="flex justify-end items-center gap-2 my-5">
           <p className="font-semibold md:text-xl">Display Layout</p>
@@ -222,7 +201,7 @@ const AllBooks = () => {
                   <tbody>
                     {
                       books.map((book, idx) => <tr key={book._id} className="md:text-sm lg:text-lg">
-                        <th className="md:text-sm lg:text-lg">{idx + 1}</th>
+                        <th className="md:text-sm lg:text-lg">{(currentPage * itemsPerPage) + idx + 1}</th>
                         <td className="md:text-sm lg:text-lg">
                           <img className="w-10" src={book.image} alt="" />
                         </td>
@@ -269,6 +248,28 @@ const AllBooks = () => {
             <span className="loading loading-spinner loading-lg"></span>
           </div>
         }
+      </div>
+      {/* ------------------------- all books display start ------------------ */}
+      <div className='text-center my-10'>
+        <p className="mb-8 font-semibold">Current page: {currentPage + 1}</p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <button className="btn" onClick={handlePrevPage}>Prev</button>
+          {
+            pages.map(page => <button
+              // className={currentPage === page ? 'selected' : undefined}
+              className={`btn ${currentPage === page ? 'bg-accent text-accent-content' : undefined}`}
+              onClick={() => setCurrentPage(page)}
+              key={page}
+            >{page + 1}</button>)
+          }
+          <button className="btn" onClick={handleNextPage}>Next</button>
+          <select className="btn bg-base-100 border-2 text-base-content w-20" value={itemsPerPage} onChange={handleItemsPerPage}>
+            <option value="6">6</option>
+            <option value="12">12</option>
+            <option value="24">24</option>
+            <option value="48">48</option>
+          </select>
+        </div>
       </div>
     </div>
   );
