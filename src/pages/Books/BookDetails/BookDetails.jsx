@@ -15,7 +15,7 @@ const BookDetails = () => {
   const [currentStock, setCurrentStock] = useState(quantity);
 
   const loadBorrow = () => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/borrow`)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/borrow?email=${user?.email}`, { withCredentials: true })
       .then(function (response) {
         // handle success
         setBorrowList(response.data);
