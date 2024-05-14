@@ -44,7 +44,7 @@ const UpdateBook = () => {
     const image = form.image.value;
     const contents = form.contents.value;
     const shortDescription = form.shortDescription.value;
-    const completeItem = { name, category, quantity: parseInt(quantity), author, rating, image, contents, shortDescription, userUid: user.uid, userEmail: user.email, userName: user.displayName }
+    const completeItem = { name, category, quantity: parseInt(quantity), author, rating: parseInt(rating), image, contents, shortDescription, userUid: user.uid, userEmail: user.email, userName: user.displayName }
 
     // --------- send server start -----
     axios.put(`${import.meta.env.VITE_VERCEL_API}/book/${_id}`, completeItem)
@@ -118,7 +118,7 @@ const UpdateBook = () => {
             </label>
             <label className="flex flex-col gap-1 w-full">
               <span>Rating</span>
-              <input type="text" name="rating" defaultValue={rating} placeholder="Rating" className="input input-bordered w-full" required />
+              <input type="number" min={1} max={5} name="rating" defaultValue={rating} placeholder="Rating" className="input input-bordered w-full" required />
             </label>
           </div>
           <div className="gap-5">
