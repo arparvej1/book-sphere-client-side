@@ -8,13 +8,14 @@ import axios from "axios";
 const BorrowedBooks = () => {
   const { user, loginCheck } = useContext(AuthContext);
   const [myBorrowBooks, setMyBorrowBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const callMyBorrow = async () => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/borrow?email=${user?.email}`, { withCredentials: true })
       .then(function (response) {
         // handle success
         setMyBorrowBooks(response.data);
-        // setLoading(false);
+        setLoading(false);
       })
       .catch(function (error) {
         // handle error
@@ -26,7 +27,7 @@ const BorrowedBooks = () => {
     callMyBorrow();
   }, []);
 
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
     loginCheck();
@@ -37,7 +38,7 @@ const BorrowedBooks = () => {
       <Helmet>
         <title> My Borrowed Books | BookSphere </title>
       </Helmet>
-      <h3 className="bg-base-300 w-full p-5 md:p-8 text-2xl md:text-5xl font-bold text-center rounded-3xl my-5">My Borrowed Books </h3>
+      <h3 className="bg-base-300 w-full p-5 md:p-8 text-2xl md:text-5xl font-bold text-center rounded-3xl my-5">My Borrowed Books</h3>
       <div className="max-w-5xl mx-auto">
         <div className="grid gap-3 grid-cols-1 lg:grid-cols-2">
           {
@@ -50,6 +51,12 @@ const BorrowedBooks = () => {
           }
         </div>
       </div>
+      {
+        loading &&
+        <div className="flex justify-center">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      }
       <ToastContainer />
     </div>
   );
