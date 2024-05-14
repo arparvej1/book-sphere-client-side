@@ -104,7 +104,6 @@ const AllBooks = () => {
       setFilterQty(0);
       await callLoadBooks(0);
     }
-    setCurrentPage(0);
   }
 
   const handleDelete = _id => {
