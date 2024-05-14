@@ -13,6 +13,7 @@ const BookDetails = () => {
   const { _id, name, image, author, category, quantity, rating, shortDescription, contents } = book;
   const [borrowList, setBorrowList] = useState([]);
   const [currentStock, setCurrentStock] = useState(quantity);
+  const [bookBorrowOneTime, setBookBorrowOneTime] = useState(true);
 
   const loadBorrow = () => {
     axios.get(`${import.meta.env.VITE_VERCEL_API}/borrow?email=${user?.email}`, { withCredentials: true })
@@ -55,17 +56,21 @@ const BookDetails = () => {
     }
     document.getElementById('borrowAdd').showModal();
   }
+
   const handleAddBorrow = (e) => {
     e.preventDefault();
     if (borrowList.find(borrow => borrow.borrowBookId.includes(_id) && borrow.borrowEmail.includes(user.email))) {
       toast.warn('Already borrowed the book!');
       return;
     }
+    if (!bookBorrowOneTime) return;
+    setBookBorrowOneTime(false);
+
     const form = e.target;
     const borrowDate = form.borrowDate.value;
     const bookReturnDate = form.bookReturnDate.value;
     const borrowBook = { borrowDate, bookReturnDate, borrowEmail: user.email, borrowUserUid: user.uid, borrowBookId: _id };
-    // --------- send server start -----
+    // --------- send server start ----- 
     axios.post(`${import.meta.env.VITE_VERCEL_API}/borrow`, borrowBook)
       .then(function (response) {
         console.log(response.data);
