@@ -38,7 +38,7 @@ const AddBook = () => {
     const image = form.image.value;
     const contents = form.contents.value;
     const shortDescription = form.shortDescription.value;
-    const completeItem = { name, category, quantity, author, rating, image, contents, shortDescription, userUid: user.uid, userEmail: user.email, userName: user.displayName }
+    const completeItem = { name, category, quantity: parseInt(quantity), author, rating, image, contents, shortDescription, userUid: user.uid, userEmail: user.email, userName: user.displayName }
 
     console.log(completeItem);
 

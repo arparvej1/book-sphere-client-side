@@ -13,19 +13,35 @@ import { IoIosArrowDown } from "react-icons/io";
 
 const AllBooks = () => {
   const { loginCheck } = useContext(AuthContext);
+  const [loadBooks, setLoadBooks] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const activeLibrarian = CheckLibrarian();
   const [displayLayout, setDisplayLayout] = useState(localStorage.getItem('displayLayout') ? localStorage.getItem('displayLayout') : 'list');
 
   // ----------------- checking -----------------------
+
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
+  // const { count } = useLoaderData();
+  // const count = 76;
 
   const numberOfPages = Math.ceil(count / itemsPerPage);
+
+  // const pages = []
+  // for(let i = 0; i < numberOfPages; i++){
+  //     pages.push(i)
+  // }
   const pages = [...Array(numberOfPages).keys()];
+
+
+  /**
+   * DONE 1: get the total number of products
+   * Done 2: number of items per page dynamic
+   * TODO 3: get the current page
+  */
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_VERCEL_API}/booksCount`)
@@ -33,38 +49,12 @@ const AllBooks = () => {
       .then(data => setCount(data.count))
   }, [])
 
-  const callLoadBooks = async (value) => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}&filterQty=${value}`)
-      .then(function (response) {
-        // handle success
-        // setLoadBooks(response.data);
-        setBooks(response.data);
-        setLoading(false);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-  }
-
   useEffect(() => {
-    // fetch(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}`)
-    //   .then(res => res.json())
-    //   .then(data => setProducts(data))
-    callLoadBooks(2);
-    // axios.get(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}`)
-    // .then(function (response) {
-    //   // handle success
-    //   setLoadBooks(response.data);
-    //   setBooks(response.data);
-    //   setLoading(false);
-    // })
-    // .catch(function (error) {
-    //   // handle error
-    //   console.log(error);
-    // })
-    console.log(books);
-  }, [currentPage, itemsPerPage]);
+    fetch(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}`)
+      .then(res => res.json())
+      .then(data => setProducts(data))
+    }, [currentPage, itemsPerPage]);
+    console.log(products);
 
   // ------------------- checking end ------------------
 
@@ -82,50 +72,32 @@ const AllBooks = () => {
     }
   }
 
-  // useEffect(() => {
-  //   axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
-  //     .then(function (response) {
-  //       // handle success
-  //       setLoadBooks(response.data);
-  //       setBooks(response.data);
-  //       setLoading(false);
-  //     })
-  //     .catch(function (error) {
-  //       // handle error
-  //       console.log(error);
-  //     })
-  // }, []);
-  // const setFilterValue = async (value) => {
-  //   await setFilterQty(value)
-  //   await callLoadBooks();
-  // }
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/books`)
+      .then(function (response) {
+        // handle success
+        setLoadBooks(response.data);
+        setBooks(response.data);
+        setLoading(false);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }, []);
 
-  const handleFilter = async (filterBy) => {
+  const handleFilter = (filterBy) => {
     if (filterBy === 'All') {
-      await callLoadBooks(2);
+      // const filtered = books.filter(book => book?.userUid?.includes(user.uid));
+      setBooks([...loadBooks]);
     } else if (filterBy === 'Available') {
-      await callLoadBooks(1);
+      const filtered = loadBooks.filter(book => book?.quantity > 0);
+      setBooks(filtered);
     } else if (filterBy === 'Not') {
-      await callLoadBooks(0);
+      const filtered = loadBooks.filter(book => book?.quantity == 0);
+      setBooks(filtered);
     }
   }
-
-
-  // const handleFilter = async (filterBy) => {
-  //   if (filterBy === 'All') {
-  //     setFilterQty(2);
-  //     // setBooks([...loadBooks]);
-  //   } else if (filterBy === 'Available') {
-  //     setFilterQty(1);
-  //     // const filtered = loadBooks.filter(book => book?.quantity > 0);
-  //     // setBooks(filtered);
-  //   } else if (filterBy === 'Not') {
-  //     setFilterQty(0);
-  //     // const filtered = loadBooks.filter(book => book?.quantity == 0);
-  //     // setBooks(filtered);
-  //   }
-  //   callLoadBooks();
-  // }
 
   const handleDelete = _id => {
     console.log(_id);
