@@ -10,6 +10,9 @@ import axios from "axios";
 import CheckLibrarian from "../../User/Librarian/CheckLibrarian";
 import { IoIosArrowDown } from "react-icons/io";
 import { ToastContainer } from "react-toastify";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+import { FiEdit } from "react-icons/fi";
+import { BiDetail } from "react-icons/bi";
 
 
 const AllBooks = () => {
@@ -186,12 +189,12 @@ const AllBooks = () => {
                       <td className="md:text-sm lg:text-lg">Author</td>
                       <td className="md:text-sm lg:text-lg">Stock</td>
                       <td className="md:text-sm lg:text-lg">Rating</td>
-                      <td className="md:text-sm lg:text-lg"></td>
+                      <td className="md:text-sm lg:text-lg">Details</td>
                       {
                         activeLibrarian ?
                           <>
-                            <td className="md:text-sm lg:text-lg"></td>
-                            <td className="md:text-sm lg:text-lg"></td>
+                            <td className="md:text-sm lg:text-lg">Update</td>
+                            <td className="md:text-sm lg:text-lg">Delete</td>
                           </>
                           : undefined
                       }
@@ -206,17 +209,18 @@ const AllBooks = () => {
                         </td>
                         <td className="md:text-sm lg:text-lg">{book.name}</td>
                         <td className="md:text-sm lg:text-lg">{book.author}</td>
-                        <td className="md:text-sm lg:text-lg">{book.quantity}</td>
-                        <td className="md:text-sm lg:text-lg">{book.rating}</td>
-                        <td className="md:text-sm lg:text-lg"><Link to={`/book/${book._id}`} className="btn btn-link">Details</Link></td>
+                        <td className="md:text-sm lg:text-lg text-center">{book.quantity}</td>
+                        <td className="md:text-sm lg:text-lg text-center">{book.rating}</td>
+                        <td className="md:text-sm lg:text-lg text-center"><Link to={`/book/${book._id}`} className="btn btn-link text-xl"><BiDetail title="View Details" /></Link></td>
                         {
                           activeLibrarian ?
                             <>
                               <td className="md:text-sm lg:text-lg">
-                                <Link to={`/update-book/${book._id}`} className='btn btn-link'>Update</Link>
+                                <Link to={`/update-book/${book._id}`} className='btn btn-link text-xl text-center'><FiEdit title="Update Book" /></Link>
                               </td>
                               <td className="md:text-sm lg:text-lg">
-                                <button onClick={() => handleDelete(book._id)} className='btn btn-link'>Delete</button>
+                                <button onClick={() => handleDelete(book._id)} className='btn btn-link text-xl text-center'><RiDeleteBin2Fill title="Delete" />
+                                </button>
                               </td>
                             </>
                             : undefined

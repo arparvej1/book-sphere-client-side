@@ -34,7 +34,7 @@ const BookCard = ({ book, activeLibrarian, handleDelete }) => {
           </>
             : undefined
         }
-        <Link to={`/book/${_id}`} className={`btn bg-primary text-primary-content ${!activeLibrarian ? 'w-full' : undefined}`}>Details</Link>
+        <Link to={`/book/${_id}`} className={`btn bg-primary text-primary-content ${!activeLibrarian ? 'w-full' : undefined}`}> {!activeLibrarian ? 'View' : undefined} Details</Link>
       </div>
     </div>
   );
