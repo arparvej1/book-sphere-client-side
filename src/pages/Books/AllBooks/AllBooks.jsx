@@ -20,7 +20,7 @@ const AllBooks = () => {
   const [displayLayout, setDisplayLayout] = useState(localStorage.getItem('displayLayout') ? localStorage.getItem('displayLayout') : 'list');
 
   // ----------------- pagination -----------------------
-  const [filterQty, setFilterQty] = useState(2);
+  const [filterQty, setFilterQty] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [count, setCount] = useState(0);
@@ -154,9 +154,9 @@ const AllBooks = () => {
           <div tabIndex={0} role="button" className="btn m-1 bg-[#23BE0A] hover:bg-[#22be0ac5] text-white w-52">Filter By <IoIosArrowDown className='text-2xl' />
           </div>
           <ul tabIndex={0} className="dropdown-content z-50 menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><Link onClick={() => handleFilter('All')}>Show all books</Link></li>
-            <li><Link onClick={() => handleFilter('Available')}>Show available books</Link></li>
-            <li><Link onClick={() => handleFilter('Not')}>Not Available</Link></li>
+            <li className={`${filterQty === 2 ? 'bg-accent text-accent-content rounded-xl' : undefined}`}><Link onClick={() => handleFilter('All')}>Show all books</Link></li>
+            <li className={`${filterQty === 1 ? 'bg-accent text-accent-content rounded-xl' : undefined}`}><Link onClick={() => handleFilter('Available')}>Show available books</Link></li>
+            <li className={`${filterQty === 0 ? 'bg-accent text-accent-content rounded-xl' : undefined}`}><Link onClick={() => handleFilter('Not')}>Not Available</Link></li>
           </ul>
         </div>
       </div>
