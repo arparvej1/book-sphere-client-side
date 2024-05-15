@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useLoaderData, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../../../provider/AuthProvider";
+import ReactStars from "react-rating-stars-component";
 import axios from "axios";
 
 const BookDetails = () => {
@@ -118,7 +119,14 @@ const BookDetails = () => {
           <hr />
           <p className="text-justify"><span className="font-bold">Stock:</span> {currentStock}</p>
           <hr />
-          <p className="text-justify"><span className="font-bold">Rating:</span> {rating}</p>
+          <p className='flex gap-2 items-center'><span  className="font-bold">Rating:</span>
+            <ReactStars
+              size={24}
+              activeColor="#ffd700"
+              value={rating}
+              edit={false}
+            />
+          </p>
           <hr />
           <p className="text-justify"><span className="font-bold">Contents:</span> {contents}</p>
           <hr />

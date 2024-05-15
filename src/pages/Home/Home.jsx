@@ -51,7 +51,7 @@ const Home = () => {
         console.log(error);
       })
 
-    axios.get(`${import.meta.env.VITE_VERCEL_API_REVIEW}/review`)
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/review`)
       .then(function (response) {
         // handle success
         setReviews(response.data);

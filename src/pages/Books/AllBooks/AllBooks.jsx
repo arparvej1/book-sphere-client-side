@@ -28,8 +28,8 @@ const AllBooks = () => {
   const numberOfPages = Math.ceil(count / itemsPerPage);
   const pages = [...Array(numberOfPages).keys()];
 
-  const callBooksCount = async (value) => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/booksCount?filterQty=${value}`)
+  const callBooksCount = async () => {
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/booksCount?filterQty=${filterQty}`)
       .then(function (response) {
         // handle success
         setCount(response.data.count)
@@ -40,8 +40,8 @@ const AllBooks = () => {
       })
   }
 
-  const callLoadBooks = async (value) => {
-    axios.get(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}&filterQty=${value}`)
+  const callLoadBooks = async () => {
+    axios.get(`${import.meta.env.VITE_VERCEL_API}/booksLimit?page=${currentPage}&size=${itemsPerPage}&filterQty=${filterQty}`)
       .then(function (response) {
         // handle success
         setBooks(response.data);
@@ -54,8 +54,8 @@ const AllBooks = () => {
   }
 
   useEffect(() => {
-    callBooksCount(filterQty);
-    callLoadBooks(filterQty);
+    callBooksCount();
+    callLoadBooks();
   }, [currentPage, itemsPerPage, filterQty]);
 
   const handleItemsPerPage = e => {
@@ -94,15 +94,13 @@ const AllBooks = () => {
   }
 
   const handleFilter = async (filterBy) => {
+    setCurrentPage(0);
     if (filterBy === 'All') {
       setFilterQty(2);
-      await callLoadBooks(2);
     } else if (filterBy === 'Available') {
       setFilterQty(1);
-      await callLoadBooks(1);
     } else if (filterBy === 'Not') {
       setFilterQty(0);
-      await callLoadBooks(0);
     }
   }
 
