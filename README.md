@@ -28,3 +28,32 @@ A123@a
 ```
 
 Please note that the librarian account is required for adding, updating, and managing books in the collection.
+
+
+## Local Development
+
+To run BookSphere locally on your machine, follow these steps:
+
+### Prerequisites
+Make sure you have Node.js and npm installed on your machine.
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/arparvej1/book-sphere-client-side.git
+
+2. **Navigate into the project directory:**
+   ```bash
+   cd book-sphere-client-side
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+
+2. **Running the Project:**
+   ```bash
+   npm run dev
+
+This command runs the app in development mode.
+Open http://localhost:5173 to view it in the browser.
